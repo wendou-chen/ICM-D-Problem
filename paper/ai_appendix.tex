@@ -1,0 +1,15 @@
+\documentclass{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{textcomp}
+
+% Allow \pm in text mode (sections may include \pm outside math)
+\let\oldpm\pm
+\renewcommand{\pm}{\ifmmode\oldpm\else\textpm\fi}
+
+\begin{document}
+\section{Report on Use of AI Tools}
+\input{sections/ai_tools_report}
+
+This appendix is intended for disclosure and is not counted toward the page limit.
+\end{document}

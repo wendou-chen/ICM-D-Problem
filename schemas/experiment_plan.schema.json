@@ -1,0 +1,96 @@
+{
+  "$defs": {
+    "StepConfig": {
+      "description": "步骤配置：单个实验步骤的参数",
+      "properties": {
+        "tool_name": {
+          "enum": [
+            "run_etl",
+            "build_graph",
+            "run_baseline",
+            "run_task2",
+            "sensitivity",
+            "attack_nodes"
+          ],
+          "title": "Tool Name",
+          "type": "string"
+        },
+        "args": {
+          "additionalProperties": true,
+          "title": "Args",
+          "type": "object"
+        },
+        "expected_artifacts": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Expected Artifacts",
+          "type": "array"
+        },
+        "acceptance_test": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Acceptance Test"
+        }
+      },
+      "required": [
+        "tool_name"
+      ],
+      "title": "StepConfig",
+      "type": "object"
+    }
+  },
+  "description": "实验计划：完整的实验设计",
+  "properties": {
+    "hypotheses": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Hypotheses",
+      "type": "array"
+    },
+    "metrics_definition": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Metrics Definition",
+      "type": "object"
+    },
+    "runs": {
+      "items": {
+        "$ref": "#/$defs/StepConfig"
+      },
+      "title": "Runs",
+      "type": "array"
+    },
+    "ablations": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Ablations",
+      "type": "array"
+    },
+    "robustness_strategy": {
+      "additionalProperties": true,
+      "title": "Robustness Strategy",
+      "type": "object"
+    },
+    "paper_map": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Paper Map",
+      "type": "object"
+    }
+  },
+  "title": "ExperimentPlan",
+  "type": "object"
+}

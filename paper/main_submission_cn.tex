@@ -1,0 +1,23 @@
+\documentclass{ctexart}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{textcomp}
+
+% Allow \pm in text mode (sections may include \pm outside math)
+\let\oldpm\pm
+\renewcommand{\pm}{\ifmmode\oldpm\else\textpm\fi}
+
+\title{内部沟通版说明}
+\author{团队内部}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{中文说明（内部沟通版）}
+\input{sections/overview_cn}
+
+\section{英文主文（可选附录）}
+详见英文主文 \texttt{main\_submission.tex}。
+
+\end{document}

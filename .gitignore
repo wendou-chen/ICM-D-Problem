@@ -1,0 +1,20 @@
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+outputs/
+data/raw/
+# 建议忽略一些较大的二进制文件或运行产物
+.env.*
+!.env.example
