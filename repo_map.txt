@@ -1,0 +1,22 @@
+目录结构（最小集合）
+MCM_B_2026/
+├── configs/
+│   └── constants.py
+├── src/
+│   └── q1/
+│       ├── __init__.py
+│       ├── capacity.py
+│       ├── cost.py
+│       ├── baseline.py
+│       ├── feasibility.py
+│       ├── robustness_interval.py
+│       └── plots.py
+├── scripts/
+│   └── run_q1.py
+├── outputs/
+│   └── q1/        # 自动生成：csv + figs
+├── docs/
+│   └── modeling_notes_q1.md
+├── tests/
+│   └── test_q1_basics.py
+└── README.md

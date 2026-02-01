@@ -1,0 +1,182 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.3.0 Chrome/140.0.7339.249 Electron/38.7.2 Safari/537.36" version="29.3.0">
+  <diagram name="第 1 页" id="JMiQVKDbD6Cm50tmRywe">
+    <mxGraphModel dx="1427" dy="849" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="1" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="label_step1" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" value="&lt;b&gt;步骤 1:&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="80" x="40" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="label_step2" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" value="&lt;b&gt;步骤 2:&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="80" x="40" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="label_step3" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" value="&lt;b&gt;步骤 3:&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="80" x="40" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="label_step4" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" value="&lt;b&gt;步骤 4:&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="80" x="40" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="step_line" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="final_box" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points">
+              <mxPoint x="80" y="810" />
+            </Array>
+            <mxPoint x="80" y="90" as="sourcePoint" />
+            <mxPoint x="80" y="800" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s1_left" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontColor=#000000;" value="常量评估：&#xa;目标质量 (M) &amp; 电梯运行 (Ce)" vertex="1">
+          <mxGeometry height="50" width="240" x="140" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="s1_right" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontColor=#000000;" value="火箭参数评估：&#xa;有效载荷 (q), 衰减率 (ρ), &amp; 楼层" vertex="1">
+          <mxGeometry height="50" width="240" x="420" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="s1_conn_text" parent="1" style="text;html=1;align=center;verticalAlign=middle;resizable=0;autosize=1;strokeColor=none;fillColor=none;fontSize=11;" value="成本模型定义" vertex="1">
+          <mxGeometry height="20" width="140" x="330" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="s1_center" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontColor=#000000;" value="初始化学习曲线成本模型&#xa;C_L(y) 和成本函数" vertex="1">
+          <mxGeometry height="50" width="400" x="200" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="c1" edge="1" parent="1" source="s1_left" target="s1_center">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c2" edge="1" parent="1" source="s1_right" target="s1_center">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow_1_2" edge="1" parent="1" source="s1_center" target="s2_left">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="400" y="200" />
+              <mxPoint x="260" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow_1_2b" edge="1" parent="1" source="s1_center" target="s2_right">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="400" y="200" />
+              <mxPoint x="540" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s2_left" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;" value="场景 A &amp; B 计算：&#xa;时间 (Ta, Tb) &amp; 基础成本" vertex="1">
+          <mxGeometry height="50" width="240" x="140" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="s2_right" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;" value="场景 C 计算设置：&#xa;混合比例 (α) 扫描" vertex="1">
+          <mxGeometry height="50" width="240" x="420" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="s2_conn_text" parent="1" style="text;html=1;align=center;verticalAlign=middle;resizable=0;autosize=1;strokeColor=none;fillColor=none;fontSize=11;" value="并行处理" vertex="1">
+          <mxGeometry height="20" width="100" x="490" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="s2_center" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;" value="测量交付时间线 (Te, Tr)&#xa;针对每个混合比例 α" vertex="1">
+          <mxGeometry height="50" width="400" x="200" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="c3" edge="1" parent="1" source="s2_left" target="s2_center">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c4" edge="1" parent="1" source="s2_right" target="s2_center">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow_2_3" edge="1" parent="1" source="s2_center" target="s3_top">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="s3_top" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;" value="构建多目标&#xa;优化模型 (时间 vs 成本)" vertex="1">
+          <mxGeometry height="50" width="300" x="250" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="s3_side" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#fff2cc;strokeColor=#d6b656;size=15;align=left;spacingLeft=10;dashed=1;" value="变量设置： α&#xa;-----------------------------&#xa;约束： Tc = max(Te, Tr)&#xa;-----------------------------&#xa;目标： 最小化成本/时间" vertex="1">
+          <mxGeometry height="90" width="180" x="630" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="c_side" edge="1" parent="1" source="s3_side" target="s3_top">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="580" y="440" as="sourcePoint" />
+            <mxPoint x="550" y="440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow_3_int" edge="1" parent="1" source="s3_top" target="s3_bottom">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="460" as="sourcePoint" />
+            <mxPoint x="400" y="480" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="text_interior" connectable="0" parent="arrow_3_int" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;" value="迭代搜索" vertex="1">
+          <mxGeometry relative="1" x="-0.2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s3_bottom" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;" value="混合比例 (α*) 的最优解&#xa;及最小时间 (T_min)" vertex="1">
+          <mxGeometry height="50" width="400" x="200" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow_3_4a" edge="1" parent="1" source="s3_bottom" target="s4_left">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="400" y="560" />
+              <mxPoint x="260" y="560" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow_3_4b" edge="1" parent="1" source="s3_bottom" target="s4_right">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="400" y="560" />
+              <mxPoint x="540" y="560" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s4_left" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;" value="鲁棒性评估&#xa;(q, Ce 的扰动)" vertex="1">
+          <mxGeometry height="50" width="240" x="140" y="590" as="geometry" />
+        </mxCell>
+        <mxCell id="s4_right" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;" value="边界分析&#xa;(成本上下界)" vertex="1">
+          <mxGeometry height="50" width="240" x="420" y="590" as="geometry" />
+        </mxCell>
+        <mxCell id="s4_center" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;" value="识别帕累托前沿 (成本-时间)&#xa;及可行策略区域" vertex="1">
+          <mxGeometry height="50" width="400" x="200" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="c_s4_1" edge="1" parent="1" source="s4_left" target="s4_center">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="650" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c_s4_2" edge="1" parent="1" source="s4_right" target="s4_center">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="540" y="650" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="text_circuit" parent="1" style="text;html=1;align=center;verticalAlign=middle;resizable=0;autosize=1;strokeColor=none;fillColor=none;fontSize=11;backgroundColor=#ffffff;" value="数据聚合" vertex="1">
+          <mxGeometry height="20" width="100" x="350" y="655" as="geometry" />
+        </mxCell>
+        <mxCell id="diamond" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" value="绘图" vertex="1">
+          <mxGeometry height="50" width="80" x="360" y="750" as="geometry" />
+        </mxCell>
+        <mxCell id="c_dia" edge="1" parent="1" source="s4_center" target="diamond">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="text_restr" connectable="0" parent="c_dia" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;" value="可视化" vertex="1">
+          <mxGeometry relative="1" x="0.2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="feedback" connectable="0" parent="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;" value="场景调整" vertex="1">
+          <mxGeometry x="720" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="feedback_line" edge="1" parent="1" source="diamond" target="s3_top">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="760" y="775" />
+              <mxPoint x="760" y="425" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="final_box" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#bac8d3;strokeColor=#23445d;fontColor=#000000;arcSize=20;" value="&lt;b&gt;定量结构与策略报告&lt;/b&gt;&lt;br&gt;时间-成本权衡曲线 &amp; 最优建设路线图" vertex="1">
+          <mxGeometry height="60" width="480" x="160" y="830" as="geometry" />
+        </mxCell>
+        <mxCell id="c_final" edge="1" parent="1" source="diamond" target="final_box">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

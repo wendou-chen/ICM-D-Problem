@@ -1,0 +1,173 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.3.0 Chrome/140.0.7339.249 Electron/38.7.2 Safari/537.36" version="29.3.0">
+  <diagram name="Q2_Robustness_Analysis" id="0">
+    <mxGraphModel dx="1213" dy="722" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="lbl_s1" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" value="&lt;b&gt;步骤 1:&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="80" x="20" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_s2" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" value="&lt;b&gt;步骤 2:&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="80" x="20" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_s3" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" value="&lt;b&gt;步骤 3:&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="80" x="20" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_s4" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" value="&lt;b&gt;步骤 4:&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="80" x="20" y="660" as="geometry" />
+        </mxCell>
+        <mxCell id="guide_line" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#666666;" target="final_box" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points">
+              <mxPoint x="60" y="860" />
+            </Array>
+            <mxPoint x="60" y="90" as="sourcePoint" />
+            <mxPoint x="60" y="850" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s1_left" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontColor=#000000;" value="基础参数定义&#xa;M=100Mt, Ce, Cr" vertex="1">
+          <mxGeometry height="50" width="240" x="120" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="s1_right" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontColor=#000000;" value="非理想参数集&#xa;(故障: λ, μ, p_R | 环境: a_B)" vertex="1">
+          <mxGeometry height="50" width="240" x="400" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="txt_s1" parent="1" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;" value="故障-参数映射" vertex="1">
+          <mxGeometry height="20" width="180" x="290" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="s1_center" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontColor=#000000;" value="不确定条件下的&#xa;有效吞吐量计算" vertex="1">
+          <mxGeometry height="50" width="400" x="180" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="a1" edge="1" parent="1" source="s1_left" target="s1_center">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a2" edge="1" parent="1" source="s1_right" target="s1_center">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_s1_s2" edge="1" parent="1" source="s1_center" target="s2_left">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="380" y="200" />
+              <mxPoint x="240" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a_s1_s2b" edge="1" parent="1" source="s1_center" target="s2_right">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="380" y="200" />
+              <mxPoint x="520" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s2_left" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;" value="太空电梯期望吞吐量&#xa;(C_tilde_E = a_E * Ce)" vertex="1">
+          <mxGeometry height="50" width="240" x="120" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="s2_right" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;" value="货运飞船期望吞吐量&#xa;(C_tilde_R = a_B * s_R * Cr_eff)" vertex="1">
+          <mxGeometry height="50" width="240" x="400" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="txt_s2" parent="1" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;" value="均值分析" vertex="1">
+          <mxGeometry height="20" width="120" x="640" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="s2_center" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;" value="基于可靠性的&#xa;最优混合比偏移量 (α*) 测算" vertex="1">
+          <mxGeometry height="50" width="400" x="180" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="a3" edge="1" parent="1" source="s2_left" target="s2_center">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a4" edge="1" parent="1" source="s2_right" target="s2_center">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_s2_s3" edge="1" parent="1" source="s2_center" target="s3_top">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="s3_top" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;" value="蒙特卡洛模拟初始化&#xa;(N 次实验用于尾部风险分析)" vertex="1">
+          <mxGeometry height="50" width="300" x="230" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="s3_side" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#fff2cc;strokeColor=#d6b656;size=15;align=left;spacingLeft=10;dashed=1;fontSize=11;" value="生成器设置:&#xa;------------------------&#xa;电梯: CTMC (开关过程)&#xa;火箭: 伯努利试验&#xa;指标: VaR 95%" vertex="1">
+          <mxGeometry height="90" width="180" x="610" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="a_side" edge="1" parent="1" source="s3_side" target="s3_top">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="440" as="sourcePoint" />
+            <mxPoint x="530" y="440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s3_bottom" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;" value="随机策略评估&#xa;(静态 α* vs. 动态备份)" vertex="1">
+          <mxGeometry height="50" width="400" x="180" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="a_s3_int" edge="1" parent="1" source="s3_top" target="s3_bottom">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="txt_s3" connectable="0" parent="a_s3_int" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="模拟运行" vertex="1">
+          <mxGeometry relative="1" x="-0.2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a_s3_s4a" edge="1" parent="1" source="s3_bottom" target="s4_left">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="380" y="560" />
+              <mxPoint x="240" y="560" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a_s3_s4b" edge="1" parent="1" source="s3_bottom" target="s4_right">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="380" y="560" />
+              <mxPoint x="520" y="560" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s4_left" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;" value="分布分析&#xa;(工期直方图)" vertex="1">
+          <mxGeometry height="50" width="240" x="120" y="590" as="geometry" />
+        </mxCell>
+        <mxCell id="s4_right" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;" value="尾部风险指标&#xa;(VaR 95% &amp; 成功概率)" vertex="1">
+          <mxGeometry height="50" width="240" x="400" y="590" as="geometry" />
+        </mxCell>
+        <mxCell id="s4_center" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;" value="鲁棒性评级确立&#xa;&amp; 缓冲时间建议" vertex="1">
+          <mxGeometry height="50" width="400" x="180" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="a_s4_1" edge="1" parent="1" source="s4_left" target="s4_center">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_s4_2" edge="1" parent="1" source="s4_right" target="s4_center">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="txt_s4" parent="1" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;backgroundColor=#ffffff;" value="统计处理" vertex="1">
+          <mxGeometry height="20" width="120" x="320" y="655" as="geometry" />
+        </mxCell>
+        <mxCell id="diamond" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" value="校验" vertex="1">
+          <mxGeometry height="50" width="80" x="340" y="750" as="geometry" />
+        </mxCell>
+        <mxCell id="a_dia" edge="1" parent="1" source="s4_center" target="diamond">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="txt_dia" connectable="0" parent="a_dia" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="可行性" vertex="1">
+          <mxGeometry relative="1" x="0.2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="feedback" edge="1" parent="1" source="diamond" target="s3_top">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="750" y="775" />
+              <mxPoint x="750" y="425" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="txt_feedback" connectable="0" parent="feedback" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="模型修正" vertex="1">
+          <mxGeometry relative="1" x="-0.5" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="final_box" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#bac8d3;strokeColor=#23445d;fontColor=#000000;arcSize=20;" value="&lt;b&gt;最终鲁棒性策略报告&lt;/b&gt;&lt;br&gt;可靠性驱动的混合运输方案 &amp; 应急缓冲" vertex="1">
+          <mxGeometry height="60" width="480" x="140" y="830" as="geometry" />
+        </mxCell>
+        <mxCell id="a_final" edge="1" parent="1" source="diamond" target="final_box">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

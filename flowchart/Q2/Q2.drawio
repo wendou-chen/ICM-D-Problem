@@ -1,0 +1,188 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.3.0 Chrome/140.0.7339.249 Electron/38.7.2 Safari/537.36" version="29.3.0">
+  <diagram name="Q2_Audit_Flowchart" id="0">
+    <mxGraphModel dx="1427" dy="849" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="1" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="lbl_s1" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" value="&lt;b&gt;STEP 1:&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="80" x="40" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_s2" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" value="&lt;b&gt;STEP 2:&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="80" x="40" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_s3" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" value="&lt;b&gt;STEP 3:&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="80" x="40" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_s4" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" value="&lt;b&gt;STEP 4:&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="80" x="40" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="guide_line" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#666666;" target="final_box" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points">
+              <mxPoint x="80" y="880" />
+            </Array>
+            <mxPoint x="80" y="90" as="sourcePoint" />
+            <mxPoint x="80" y="850" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s1_left" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontColor=#000000;" value="&lt;b&gt;System Baseline Parameters&lt;/b&gt;&lt;br&gt;Demand: M, Target: T_target&lt;br&gt;Elevator: C_E (Nominal)&lt;br&gt;Rocket: K, r, q" vertex="1">
+          <mxGeometry height="60" width="260" x="140" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="s1_right" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontColor=#000000;" value="&lt;b&gt;Risk &amp; Decision Parameters&lt;/b&gt;&lt;br&gt;Elevator: λ_E, μ_E (On-Off Model)&lt;br&gt;Rocket: p_R, τ_reset (Pad Lock)&lt;br&gt;Decision: γ (Surge Rate)" vertex="1">
+          <mxGeometry height="60" width="260" x="420" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="c_s1_mid" edge="1" parent="1" source="s1_left" style="endArrow=classic;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="s1_center" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="270" y="120" />
+              <mxPoint x="410" y="120" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c_s1_mid2" edge="1" parent="1" source="s1_right" style="endArrow=classic;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="s1_center" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="550" y="120" />
+              <mxPoint x="410" y="120" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s1_center" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontColor=#000000;" value="Uncertainty Quantification &amp; Parameter Mapping" vertex="1">
+          <mxGeometry height="40" width="300" x="260" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="arr_1_2" edge="1" parent="1" source="s1_center" style="endArrow=classic;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="s2_main" value="Layer A">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="s2_main" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;" value="&lt;b&gt;Analytical Expectation Model (Layer A)&lt;/b&gt;&lt;br&gt;Effective Throughput Calculation" vertex="1">
+          <mxGeometry height="50" width="300" x="260" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="s2_left" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;" value="Elevator &amp; Rocket Eff. Throughput&lt;br&gt;C̃_E = a_E * C_E&lt;br&gt;C̃_R = f(K, a_B, q, p_R, τ_reset)" vertex="1">
+          <mxGeometry height="60" width="260" x="140" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="s2_right" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;" value="Optimal Mix Ratio Drift (α*)&lt;br&gt;α* = C̃_E / (C̃_E + C̃_R)&lt;br&gt;Directional Shift Analysis" vertex="1">
+          <mxGeometry height="60" width="260" x="420" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="c_s2_1" edge="1" parent="1" source="s2_main" target="s2_left">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="410" y="285" />
+              <mxPoint x="270" y="285" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c_s2_2" edge="1" parent="1" source="s2_main" target="s2_right">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="410" y="285" />
+              <mxPoint x="550" y="285" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arr_2_3" edge="1" parent="1" source="s2_left" style="endArrow=classic;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="s3_top" value="Layer B &amp; C">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="270" y="390" />
+              <mxPoint x="410" y="390" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arr_2_3b" edge="1" parent="1" source="s2_right" style="endArrow=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="550" y="390" />
+            </Array>
+            <mxPoint x="410" y="390" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s3_top" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;" value="&lt;b&gt;Feasibility Certificate (Layer B)&lt;/b&gt;&lt;br&gt;Necessary Condition: C̃_total ≥ M / T_target&lt;br&gt;Gap Analysis: ΔC" vertex="1">
+          <mxGeometry height="60" width="300" x="260" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="s3_side" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#fff2cc;strokeColor=#d6b656;size=15;align=left;spacingLeft=10;dashed=1;" value="&lt;b&gt;Policy Settings&lt;/b&gt;&lt;hr&gt;P0: Fixed α*&lt;br&gt;P1: Dynamic Backup (γ)&lt;br&gt;&lt;i&gt;Metrics: VaR, CVaR&lt;/i&gt;" vertex="1">
+          <mxGeometry height="90" width="180" x="600" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="c_side" edge="1" parent="1" source="s3_side" target="s3_bottom">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="600" y="565" as="sourcePoint" />
+            <mxPoint x="560" y="565" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s3_bottom" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;" value="&lt;b&gt;Monte Carlo Simulation (Layer C)&lt;/b&gt;&lt;br&gt;Daily State Machine (On-Off / Pad Lock)&lt;br&gt;Tail Risk Quantification" vertex="1">
+          <mxGeometry height="60" width="300" x="260" y="530" as="geometry" />
+        </mxCell>
+        <mxCell id="arr_3_int" edge="1" parent="1" source="s3_top" style="endArrow=classic;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="s3_bottom">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr_3_4" edge="1" parent="1" source="s3_bottom" style="endArrow=classic;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="s4_opt" value="Layer D">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="410" y="640" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s4_opt" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;" value="&lt;b&gt;Dynamic Backup Optimization&lt;/b&gt;&lt;br&gt;Scan Emergency Rate γ&lt;br&gt;Find Min γ* for P(on-time) ≥ 95%" vertex="1">
+          <mxGeometry height="50" width="380" x="220" y="660" as="geometry" />
+        </mxCell>
+        <mxCell id="s4_left" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;" value="Feasibility Map&lt;br&gt;(Region Coloring)" vertex="1">
+          <mxGeometry height="40" width="160" x="180" y="740" as="geometry" />
+        </mxCell>
+        <mxCell id="s4_right" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;" value="Tail Risk Analysis&lt;br&gt;(Boxplot &amp; VaR)" vertex="1">
+          <mxGeometry height="40" width="160" x="480" y="740" as="geometry" />
+        </mxCell>
+        <mxCell id="c_s4_1" edge="1" parent="1" source="s4_opt" target="s4_left">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="725" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c_s4_2" edge="1" parent="1" source="s4_opt" target="s4_right">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="560" y="725" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="diamond" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" value="ROBUST?" vertex="1">
+          <mxGeometry height="60" width="100" x="360" y="790" as="geometry" />
+        </mxCell>
+        <mxCell id="c_dia_1" edge="1" parent="1" source="s4_left" target="diamond">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="820" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c_dia_2" edge="1" parent="1" source="s4_right" target="diamond">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="560" y="820" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="final_box" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#bac8d3;strokeColor=#23445d;fontColor=#000000;arcSize=20;" value="&lt;b&gt;Final Robust Strategy Report&lt;/b&gt;&lt;br&gt;Optimal γ* (Extent), Capability Gap ΔC, &amp; Reliability Ratings" vertex="1">
+          <mxGeometry height="60" width="500" x="160" y="880" as="geometry" />
+        </mxCell>
+        <mxCell id="c_final" edge="1" parent="1" source="diamond" target="final_box">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="feedback" connectable="0" parent="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Adjust α" vertex="1">
+          <mxGeometry x="740" y="530" as="geometry">
+            <mxPoint x="-8" y="-4" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="feedback_line" edge="1" parent="1" style="entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="s2_main">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="798" y="820" />
+              <mxPoint x="798" y="760" />
+              <mxPoint x="798" y="440" />
+              <mxPoint x="798" y="245" />
+            </Array>
+            <mxPoint x="498" y="820" as="sourcePoint" />
+            <mxPoint x="570" y="245" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
