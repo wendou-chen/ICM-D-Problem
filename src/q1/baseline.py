@@ -98,7 +98,10 @@ def build_q1_baseline_table() -> pd.DataFrame:
                 "cost_note": f"Rocket(C0={c0_low/1e6}M-{c0_high/1e6}M)"
             })
 
-    # --- Scenario C: Hybrid (Best Case) ---
+    # --- Scenario C: Hybrid (Configs) ---
+    # User requested: Optimal C, plus C(r=1,q=100) and C(r=2,q=150)
+
+    # 1. Optimal C (as before, uses max capacity rocket)
     r_best = max(Rocket.DAILY_RATE_SET)
     q_best = max(Rocket.PAYLOAD_RANGE_TON)
     cap_r_best = rocket_annual_capacity_tpy(K, r_best, q_best)
@@ -106,24 +109,20 @@ def build_q1_baseline_table() -> pd.DataFrame:
     time_c_min = lower_bound_time_years(Problem.TOTAL_MASS_TONS, cap_a, cap_r_best)
     alpha_opt = alpha_star(cap_a, cap_r_best)
 
-    # Cost C: Alpha portion via Elevator, (1-Alpha) via Rocket
-    mass_elev = Problem.TOTAL_MASS_TONS * alpha_opt
-    mass_rock = Problem.TOTAL_MASS_TONS * (1 - alpha_opt)
+    # Cost C Optimal
+    mass_elev_opt = Problem.TOTAL_MASS_TONS * alpha_opt
+    mass_rock_opt = Problem.TOTAL_MASS_TONS * (1 - alpha_opt)
 
-    # C.1 Elevator Part
-    cost_c_elev_opex_low = mass_elev * elev_opex_low
-    cost_c_elev_opex_high = mass_elev * elev_opex_high
+    cost_c_elev_opex_low = mass_elev_opt * elev_opex_low
+    cost_c_elev_opex_high = mass_elev_opt * elev_opex_high
 
-    # C.2 Apex Part (for Elevator mass)
-    n_launches_apex_c = rocket_launches_required(mass_elev, q_best) # assume q_best for Apex too
-    # Apex launches happen in parallel with Earth launches, over time_c_min
+    n_launches_apex_c = rocket_launches_required(mass_elev_opt, q_best)
     launches_per_year_apex_c = math.ceil(n_launches_apex_c / time_c_min)
     raw_apex_cost_c_low = total_rocket_cost_over_schedule(n_launches_apex_c, launches_per_year_apex_c, Problem.START_YEAR, c0_low, decay, period, floor)
     raw_apex_cost_c_high = total_rocket_cost_over_schedule(n_launches_apex_c, launches_per_year_apex_c, Problem.START_YEAR, c0_high, decay, period, floor)
 
-    # C.3 Rocket Part (Earth->Moon)
-    n_launches_rock_c = rocket_launches_required(mass_rock, q_best)
-    launches_per_year_rock_c = math.ceil(n_launches_rock_c / time_c_min) # Parallel
+    n_launches_rock_c = rocket_launches_required(mass_rock_opt, q_best)
+    launches_per_year_rock_c = math.ceil(n_launches_rock_c / time_c_min)
     cost_rock_c_low = total_rocket_cost_over_schedule(n_launches_rock_c, launches_per_year_rock_c, Problem.START_YEAR, c0_low, decay, period, floor)
     cost_rock_c_high = total_rocket_cost_over_schedule(n_launches_rock_c, launches_per_year_rock_c, Problem.START_YEAR, c0_high, decay, period, floor)
 
@@ -136,12 +135,56 @@ def build_q1_baseline_table() -> pd.DataFrame:
         "r_daily": r_best,
         "payload_ton": q_best,
         "annual_capacity_tpy": cap_a + cap_r_best,
-        "launches_required": n_launches_rock_c, # Only Earth direct launches
+        "launches_required": n_launches_rock_c,
         "time_years": time_c_min,
         "finish_year": Problem.START_YEAR + time_c_min,
         "cost_low_usd": cost_c_low,
         "cost_high_usd": cost_c_high,
-        "cost_note": f"Alpha={alpha_opt:.3f}, Parallel"
+        "cost_note": f"Alpha={alpha_opt:.3f}, Parallel (Optimal)"
     })
+
+    # 2. Specific C Configs: (r=1, q=100) and (r=2, q=150)
+    c_configs = [(1, 100.0), (2, 150.0)]
+
+    for r_c, q_c in c_configs:
+        cap_r_c = rocket_annual_capacity_tpy(K, r_c, q_c)
+
+        # Calculate time and alpha for this specific config
+        time_c_spec = lower_bound_time_years(Problem.TOTAL_MASS_TONS, cap_a, cap_r_c)
+        alpha_spec = alpha_star(cap_a, cap_r_c)
+
+        # Cost C Specific
+        mass_elev_spec = Problem.TOTAL_MASS_TONS * alpha_spec
+        mass_rock_spec = Problem.TOTAL_MASS_TONS * (1 - alpha_spec)
+
+        cost_c_elev_opex_low_s = mass_elev_spec * elev_opex_low
+        cost_c_elev_opex_high_s = mass_elev_spec * elev_opex_high
+
+        n_launches_apex_c_s = rocket_launches_required(mass_elev_spec, q_c) # Use q_c for Apex too
+        launches_per_year_apex_c_s = math.ceil(n_launches_apex_c_s / time_c_spec)
+        raw_apex_cost_c_low_s = total_rocket_cost_over_schedule(n_launches_apex_c_s, launches_per_year_apex_c_s, Problem.START_YEAR, c0_low, decay, period, floor)
+        raw_apex_cost_c_high_s = total_rocket_cost_over_schedule(n_launches_apex_c_s, launches_per_year_apex_c_s, Problem.START_YEAR, c0_high, decay, period, floor)
+
+        n_launches_rock_c_s = rocket_launches_required(mass_rock_spec, q_c)
+        launches_per_year_rock_c_s = math.ceil(n_launches_rock_c_s / time_c_spec)
+        cost_rock_c_low_s = total_rocket_cost_over_schedule(n_launches_rock_c_s, launches_per_year_rock_c_s, Problem.START_YEAR, c0_low, decay, period, floor)
+        cost_rock_c_high_s = total_rocket_cost_over_schedule(n_launches_rock_c_s, launches_per_year_rock_c_s, Problem.START_YEAR, c0_high, decay, period, floor)
+
+        cost_c_low_s = cost_c_elev_opex_low_s + (raw_apex_cost_c_low_s * beta_low) + cost_rock_c_low_s
+        cost_c_high_s = cost_c_elev_opex_high_s + (raw_apex_cost_c_high_s * beta_high) + cost_rock_c_high_s
+
+        rows.append({
+            "scenario": "C_hybrid",
+            "K_sites": K,
+            "r_daily": r_c,
+            "payload_ton": q_c,
+            "annual_capacity_tpy": cap_a + cap_r_c,
+            "launches_required": n_launches_rock_c_s,
+            "time_years": time_c_spec,
+            "finish_year": Problem.START_YEAR + time_c_spec,
+            "cost_low_usd": cost_c_low_s,
+            "cost_high_usd": cost_c_high_s,
+            "cost_note": f"Alpha={alpha_spec:.3f}, Parallel (r={r_c}, q={q_c})"
+        })
 
     return pd.DataFrame(rows)

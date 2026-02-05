@@ -11,13 +11,15 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from configs.constants import WaterDemand, WaterPolicy, Elevator, Rocket, RELIABILITY_PRESETS, WaterCapacityShare
 from src.q3 import analytics, simulation
+from src.utils.plot_style import apply_style
 
 OUTPUT_DIR = "outputs/q3/step3"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 def run_step3_reliability_analysis():
     print("Running Step 3: Inventory Reliability Analysis...")
-    
+    apply_style()
+
     # 1. Define Baseline Scenario (Must be physically feasible)
     # Based on Step 1, we NEED eta >= 0.95. Let's use eta=0.98 (ISS standard).
     eta = 0.98
@@ -109,6 +111,11 @@ def run_step3_reliability_analysis():
         
         # Plot traces for L=30
         if L == 30 and example_trace:
+            # Save Trace Data for Plotting
+            df_trace = pd.DataFrame(example_trace).T
+            df_trace.columns = [f'Sim_{i}' for i in range(len(example_trace))]
+            df_trace.to_csv(os.path.join(OUTPUT_DIR, f"plot_data_trace_L{L}.csv"), index_label="Day")
+
             plt.figure(figsize=(12, 6))
             for tr in example_trace:
                 plt.plot(tr, alpha=0.6)
@@ -123,7 +130,10 @@ def run_step3_reliability_analysis():
     # 4. Save & Plot Results
     df = pd.DataFrame(results)
     df.to_csv(os.path.join(OUTPUT_DIR, "step3_reliability.csv"), index=False)
-    
+
+    # Save Reliability Curve Data for Plotting
+    df.to_csv(os.path.join(OUTPUT_DIR, "plot_data_reliability_curve.csv"), index=False)
+
     plt.figure(figsize=(10, 6))
     sns.lineplot(data=df, x='L_safe_days', y='p_success', marker='o', linewidth=2)
     plt.axhline(0.95, color='green', linestyle='--', label='95% Reliability Target')

@@ -1,0 +1,1020 @@
+% ======================================================================
+%  ICM Problem D (网络/优化) - 面向获奖的 LaTeX 模板
+%  视觉升级版（紧凑 + 期刊风格排版）
+%  作者: <您的队伍控制号>
+%  说明:
+%   - 请将方括号占位符（如 [ ... ]）替换为您的实际内容。
+%   - 保持第一页为官方的"一页摘要表"。
+%   - 在文档末尾附近添加必需的一页备忘录。
+% ======================================================================
+
+\documentclass[11pt,letterpaper]{article}
+
+% ---- 页面布局（按您设置；保持不变） ----
+\usepackage[top=2.5cm,bottom=2.5cm,left=2.0cm,right=2.0cm]{geometry}
+
+% ---- 引擎检测 ----
+\usepackage{iftex}
+
+% ---- 数学工具（必须先加载） ----
+% 在字体选择之前加载这些包，以防止"为时已晚"错误
+\usepackage{amsmath}
+\usepackage{mathtools} % 加载 amsmath，修复错误，添加工具
+
+% ---- 字体与编码 ----
+\ifPDFTeX
+  % PDFLaTeX 的严格编码
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{amssymb,amsfonts} % 仅在 PDFLaTeX 模式下加载，以避免与 unicode-math 冲突
+  \usepackage{bm} % PDFLaTeX 的粗体数学符号
+  
+
+  % 微排版
+  \usepackage{microtype}
+  
+  % ===== 方案 A: Palatino + Euler（经典 COMAP 外观） =====
+  \usepackage{mathpazo}
+  \usepackage[euler-digits,euler-hat-accent]{eulervm}
+  \usepackage[scaled=0.95]{inconsolata} % 等宽字体
+  
+\else
+  % ===== 方案 B: XeLaTeX/LuaLaTeX（现代） =====
+  \usepackage{fontspec}
+  % 微排版（XeTeX 中部分支持即可）
+  \usepackage{microtype}
+  
+  % 文本字体
+  \setmainfont{TeX Gyre Pagella} % Palatino 克隆字体
+  \setsansfont{TeX Gyre Heros}   % Helvetica 克隆字体
+  % 修复：如果 Inconsolata 未作为系统字体安装，使用安全的等宽字体默认值
+  \setmonofont{Latin Modern Mono} 
+  
+  % 数学字体（unicode-math 必须在 amsmath/mathtools 之后加载）
+  \usepackage{unicode-math}
+  \setmathfont{STIX Two Math} % 或使用 TeX Gyre Pagella Math
+  
+  % 注意：unicode-math 定义了 \symbf，因此通常不需要 'bm' 包。
+  % 如果您需要 \bm 兼容性，请取消下一行的注释：
+  % \let\bm\symbf
+\fi
+
+% ---- 段落格式（紧凑，适合屏幕阅读） ----
+\usepackage{parskip}
+% 不要过度使用空白：竞赛报告需要密度。
+\setlength{\parskip}{0.42em}     % 建议值：0.35--0.45em
+\setlength{\parindent}{0pt}
+\linespread{1.02}               % 除非必要，否则避免使用 \baselinestretch
+\raggedbottom                   % 防止 TeX 不自然地拉伸垂直空间
+
+% ---- 单位与数字（不错的选择） ----
+\usepackage{siunitx}
+\sisetup{group-separator={,},per-mode=symbol,detect-all}
+
+% ---- 标题格式（紧凑，减少"PPT"感） ----
+\usepackage{titlesec}
+\titleformat{\section}{\Large\bfseries\color{black!90}}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\normalsize\bfseries\color{black!90}}{\thesubsection}{0.6em}{}
+\titleformat{\subsubsection}{\normalsize\itshape}{\thesubsubsection}{0.6em}{}
+\titlespacing*{\section}{0pt}{1.1ex plus 0.4ex minus 0.2ex}{0.6ex plus 0.2ex}
+\titlespacing*{\subsection}{0pt}{0.9ex plus 0.3ex minus 0.2ex}{0.45ex plus 0.2ex}
+
+% ---- 列表（与 parskip 配合至关重要） ----
+\usepackage{enumitem}
+\setlist[itemize]{topsep=3pt,itemsep=2pt,parsep=0pt,partopsep=0pt,leftmargin=1.25em}
+\setlist[enumerate]{topsep=3pt,itemsep=2pt,parsep=0pt,partopsep=0pt,leftmargin=1.25em}
+
+% ---- 图表 ----
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{threeparttable} % 避免使用包选项 [flushleft] 以确保兼容性
+\usepackage{multirow}
+\usepackage{longtable}
+\usepackage{subcaption}
+\usepackage{float} % 为图表启用 [H] 选项
+% 标题：小字体 + 粗体标签，期刊风格
+\usepackage{caption}
+\captionsetup{font=small,labelfont=bf}
+\captionsetup[table]{skip=4pt}
+\captionsetup[figure]{skip=4pt}
+% 浮动体间距（平衡）
+\setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+\setlength{\intextsep}{8pt plus 2pt minus 2pt}
+\setlength{\floatsep}{8pt plus 2pt minus 2pt}
+% 优先使用自然浮动；使用屏障而非 [H]
+
+\usepackage[section]{placeins}
+
+% ---- 颜色与超链接 ----
+\usepackage[dvipsnames]{xcolor}
+\usepackage{xurl} % 更好的 URL 换行
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  citecolor=blue,
+  urlcolor=magenta,
+  pdfborder={0 0 0},
+  bookmarksopen=true,
+  bookmarksnumbered=true,
+  pdfauthor={Team Control Number},
+  pdftitle={2026 ICM Problem D Solution}
+}
+
+% ---- 页眉/页脚 ----
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\setlength{\headheight}{14pt}
+\pagestyle{fancy}
+\fancyhf{}
+\newcommand{\teamno}{2604242}
+\lhead{\bfseries Team \# \teamno}
+\rhead{Page \thepage\ of \pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% ---- 算法（稳定 + 避免难看的换行） ----
+\usepackage{etoolbox} % 确保 \AtBeginEnvironment 存在（特别是 XeLaTeX）
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+% 使算法文本稍小且更紧凑
+\AtBeginEnvironment{algorithm}{\small}
+% 重要：algorithmicindent 是宏，不是长度 -> 使用 algrenewcommand
+\algrenewcommand\algorithmicindent{1.2em}
+\algrenewcommand{\algorithmicrequire}{\textbf{Input:}}
+\algrenewcommand{\algorithmicensure}{\textbf{Output:}}
+% 可选：微妙的算法框（比 TikZ 框架更轻）
+\usepackage[most]{tcolorbox}
+\tcolorboxenvironment{algorithm}{
+  boxrule=0.4pt,
+  colback=black!3,
+  colframe=black!25,
+  arc=2pt,
+  left=6pt,right=6pt,top=6pt,bottom=6pt
+}
+
+% ---- 参考文献（P0 修复） ----
+\usepackage[numbers,sort&compress]{natbib}
+% 保留：\bibliographystyle{plainnat} \bibliography{references}
+
+% ---- 防御式排版 ----
+\setlength{\emergencystretch}{2em} % 减少密集文本中的过满行
+
+
+
+% ======================================================================
+% 9. 备忘录环境（企业风格）
+% ======================================================================
+\newenvironment{memosheet}{%
+    \clearpage
+    \newgeometry{top=2cm, bottom=2cm, left=2.5cm, right=2.5cm} % 标准备忘录边距
+    \thispagestyle{empty}
+    \begingroup
+    \sffamily
+    \noindent
+    {\huge\bfseries\color{black!80} MEMORANDUM} \hfill \textbf{\today}
+    \par\vspace{10pt}
+    \hrule height 1pt
+    \par\vspace{10pt}
+    \begin{tabbing}
+        \textbf{To:} \hspace{1cm} \= Mayor / Agency Name \\
+        \textbf{From:} \> Team \teamno \\
+        \textbf{Subject:} \> \textbf{Strategic Recommendation for [Project Name]}
+    \end{tabbing}
+    \par\vspace{5pt}
+    \hrule height 0.5pt
+    \par\vspace{15pt}
+    \setlength{\parskip}{0.8em}
+}{%
+    \endgroup
+    \restoregeometry
+}
+
+
+
+% ======================================================================
+% 10. 自定义宏
+% ======================================================================
+\newcommand{\G}{\mathcal{G}}
+\newcommand{\V}{\mathcal{V}}
+\newcommand{\E}{\mathcal{E}}
+\newcommand{\R}{\mathbb{R}}
+
+\ifPDFTeX
+  \newcommand{\vect}[1]{\bm{#1}}
+\else
+  \newcommand{\vect}[1]{\symbf{#1}} % unicode-math 提供 \symbf
+\fi
+
+% 决策变量（示例；请根据您的问题重命名）
+\newcommand{\x}{\vect{x}}      % 通用决策向量
+\newcommand{\flow}{f}         % 边上的流量
+\newcommand{\state}{s}        % 状态变量（例如，水平、需求）
+\newcommand{\proj}{p}         % 项目索引
+\newcommand{\stake}{k}        % 利益相关者索引
+\newcommand{\maxfunc}[2]{\max\left( #1, \ #2 \right)} % 最大值函数
+\newcommand{\cue}[1]{\textcolor{black!40}{\footnotesize\itshape [Writing Cue: #1]}}
+\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}
+\newcommand{\floor}[1]{\lfloor #1 \rfloor} % 向下取整
+\begin{document}
+\graphicspath{{.}}  % Place your graphic files in the same directory as your main document
+\DeclareGraphicsExtensions{.pdf, .jpg, .tif, .png}
+
+% ======================================================================
+% 1) 一页摘要表（COMAP 要求）
+% 官方 COMAP 标准格式
+% ======================================================================
+\thispagestyle{empty} % 摘要表上无页码
+
+% ===== 摘要页：单独压缩顶部留白（仅影响本页；后面会 restore）=====
+
+% --- 官方摘要表头部开始 ---
+\vspace*{-12ex}
+\centerline{\begin{tabular}{*3{c}}
+	\parbox[t]{0.3\linewidth}{\begin{center}\textbf{Problem Chosen}\\[4pt] {\fontsize{28}{34}\selectfont B}\end{center}}
+	& \parbox[t]{0.3\linewidth}{\begin{center}\textbf{2026\\ MCM/ICM\\ Summary Sheet}\end{center}}
+	& \parbox[t]{0.3\linewidth}{\begin{center}\textbf{Team Control Number}\\[4pt] {\fontsize{28}{34}\selectfont 2604242}\end{center}}	\\
+	\specialrule{1.2pt}{2pt}{0pt}
+\end{tabular}}
+
+% 3. 标题部分（居中，粗体）
+
+\vspace{1.5em}
+\begin{center}
+    \textbf{\Large The Lunar Lifeline: An Integrated Stochastic Logistics Framework for Sustainable Colony Establishment}
+\end{center}
+\vspace{1em}
+
+% 4. 摘要标签
+\begin{center}
+    \textbf{\large Summary}
+\end{center}
+
+% 5. 摘要文本设置（无缩进，明显的段落分隔）
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
+% --- 官方摘要表头部结束 ---
+
+% --- 摘要内容开始 ---
+The construction of a lunar colony requiring $10^8$ metric tons of cargo represents humanity's most ambitious logistical undertaking, presenting a "Logistics Trilemma" between minimizing construction time, controlling astronomical costs, and mitigating environmental damage. To navigate this complex landscape, we develop a comprehensive \textbf{Integrated Space Logistics Framework (ISLF)} that evolves from an idealized blueprint to a robust, life-sustaining, and ecologically responsible reality.
+
+\textbf{For Task 1,} The Blueprint (Logistics Architecture Optimization). We begin by establishing a theoretical baseline under ideal conditions. Rejecting traditional static cost assumptions, we employ a \textbf{Dynamic Cost Engine} and construct a \textbf{Hybrid Logistics Optimization Model (HLOM)}. Our analysis reveals a convex "V-curve" in project duration, identifying a \textbf{Golden Load Ratio ($\alpha^* \approx 0.32$)} specifically optimized for the \textbf{minimum possible completion time}. By assigning 32\% of the cargo to the Space Elevator and 68\% to Rockets, we leverage the "Marginal Time-Value Arbitrage," achieving this theoretical minimum of \textbf{61.3 years}—saving 30 years compared to rocket-only strategies while reducing costs by an order of magnitude.
+
+\textbf{For Task 2,} The Stress Test (Stochastic Robustness). Moving from theory to reality, we expose our blueprint to the friction of Stochastic Failures. We construct a \textbf{Four-Layer Stochastic Framework}, modeling elevator burst downtime and rocket pad resets. Monte Carlo simulations reveal that static plans suffer from "Heavy Tail" risks. To counteract this, we design an \textbf{Adaptive Surge Policy}. Optimization proves that a surge capacity of \textbf{$\gamma^* \approx 1.8$} (80\% backup intensity) is the critical "shock absorber" required to guarantee the deadline with \textbf{95\% confidence}, effectively suppressing failure variance.
+
+\textbf{For Task 3,} With the colony's gross metabolic demand reaching 6.39 million tons annually, we integrate ECLSS recycling ($\eta = 0.98$) to mitigate the net logistical burden to a manageable $\sim$0.13 million tons/year. However, the risk shifts from volume to volatility: given the zero tolerance for dehydration, our Dual-Threshold Inventory Policy reveals that a 30-day safety stock is the minimum buffer required to survive the "heavy tail" supply disruptions identified in Model II.
+
+\textbf{For Task 4,} The Conscience (Environmental Impact Assessment). Finally, we audit the ecological cost of our robust system. Coupling the logistics engine with a \textbf{Stratospheric Leaky Bucket Model}, we uncover a fundamental \textbf{"Pollution Shift"}: elevators shift the burden from operational soot to construction carbon debt. Crucially, we identify a \textbf{Synergistic Frontier} where high elevator utilization minimizes both financial cost and the \textbf{Environmental Damage Index (EDI)}. However, a "Haste Penalty" exists: compressing the timeline below 40 years triggers exponential damage, advocating for a "Patient Construction" strategy.
+
+\textbf{Bottom line:} Our sequential analysis defines a structured strategic evolution. Using a hybrid logistics blueprint with the time-optimal ratio 0.32, we achieve a 61.3-year minimum construction timeline. After core infrastructure completion, the system transitions to an elevator-dominant phase for long-term sustainment, minimizing the Environmental Damage Index. Our framework confirms that while speed enables colony construction, reliability—not speed—is the fundamental currency of the lunar economy.
+\vfill
+\noindent\textbf{Keywords:} Hybrid Logistics Optimization; Stochastic Robustness; Water Supply Chain; Environmental Impact Assessment; Pollution Shift; Pareto Frontier
+
+
+% ======================================================================
+% 2) 目录
+% ======================================================================
+\restoregeometry % 恢复全文默认边距（避免影响目录与正文）
+\tableofcontents
+\thispagestyle{empty} % 目录页不显示页码
+\newpage
+\setcounter{page}{1} % 正文从第1页开始计数
+
+% ======================================================================
+% 3) 主要报告
+% ======================================================================
+
+\section{Introduction}
+
+\subsection{Problem Background}
+
+\begin{quote}
+\textit{``Earth is the cradle of humanity, but one cannot live in a cradle forever.''}
+\hfill --- Konstantin Tsiolkovsky
+\end{quote}
+
+The transition from a single-planet species to a multi-planetary civilization represents the next great leap in human evolution. Establishing a permanent lunar presence is not merely an act of exploration but a necessity for relieving the ecological pressure on Earth’s fragile ecosystem. By 2050, the ambition to establish a lunar colony for 100,000 residents marks a turning point in history, transforming space from a frontier of discovery into a domain of habitation and commerce. However, the physical reality of this ambition confronts a staggering logistical barrier: the requirement to transport \textbf{100 million metric tons ($10^8$ tons)} of infrastructure and supplies across the gravity well.
+
+The Lunar Colony Administration faces a critical strategic crossroads defined by two competing technological paradigms. On one hand, traditional \textbf{Chemical Rocketry}, exemplified by heavy-lift launch vehicles, offers a mature and flexible solution but is plagued by high marginal costs and significant atmospheric emissions. On the other hand, the emerging \textbf{Space Elevator System}, consisting of three equatorial Galactic Harbours, promises a revolution in efficiency with low-cost, electric-driven tether climbers, yet it is constrained by fixed throughput limits and immense upfront complexity.
+
+The challenge is not simply moving mass; it is resolving a ``Logistics Trilemma''—the inherent conflict between minimizing construction duration, controlling astronomical financial costs, and mitigating irreversible environmental damage to Earth. As shown in Figure \ref{fig:concept}, the choice between these transport modes will dictate the economic viability and ecological sustainability of humanity's expansion into the solar system.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{8686f556fa3e47ca985d212f5632ce8a.JPG}
+    \caption{\textbf{Galactic Harbour Transport Concept.} A comparison between the tether-based Space Elevator system and traditional direct rocket injection trajectories.}
+    \label{fig:concept}
+\end{figure}
+
+\subsection{Restatement of the Problem}
+
+Our team is tasked with developing a comprehensive **Integrated Space Logistics Framework (ISLF)** to determine the optimal roadmap for establishing and sustaining the lunar colony. We must navigate the trade-offs between the Space Elevator’s high efficiency and Rocketry’s high scalability while accounting for real-world stochastic frictions and environmental ethics. Specifically, our modeling effort focuses on the following four core tasks:
+
+\begin{itemize}
+    \item \textbf{Logistics Architecture Optimization:} Analyze three transport scenarios (Elevator-only, Rocket-only, and Hybrid) to determine the optimal resource allocation that minimizes cost and construction time for the 100 million ton cargo requirement.
+    \item \textbf{Resilience under Uncertainty:} Move beyond ideal conditions to assess how the system performs under stochastic disruptions, such as tether instability, launch failures, and weather delays, and determine the impact on the project timeline.
+    \item \textbf{Supply Chain Sustainability (The Water Lifeline):} Investigate the rigid demand of sustaining the colony once operational. Specifically, model the supply chain for one year of water consumption, accounting for recycling technologies (ECLSS) and inventory risks to prevent catastrophic shortages.
+    \item \textbf{Environmental Impact Assessment:} Quantify the ecological footprint of the proposed solutions on Earth’s atmosphere. We must propose adjustments to the model to minimize environmental damage (e.g., stratospheric soot and carbon emissions) while maintaining logistical feasibility.
+\end{itemize}
+
+Ultimately, we are required to synthesize these findings into a strategic memorandum for the Lunar Colony Administration, recommending a robust course of action for the colony's establishment.
+\subsection{Our Work}
+
+Based on the detailed problem analysis, we construct the \textbf{Integrated Space Logistics Framework (ISLF)} comprising four distinctive models—\textbf{Logistics Architecture Optimization Model (HLOM)} for baseline efficiency, \textbf{Stochastic Resilience Analysis Model} for disaster recovery, \textbf{Water Supply Chain Inventory Model} for survival assurance, and \textbf{Multi-Physics Environmental Impact Model} for ecological assessment. Then, we synthesize these outputs into a strategic roadmap to guide the Lunar Colony Administration. Finally, we conduct sensitivity analysis on architecture complexity and grid decarbonization to test the robustness of our models. The work we have done is mainly shown in Figure \ref{fig:our_work}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.82\linewidth]{cd65f9edb44ab9fe54a0bcccab130b9c.png}
+    \caption{\textbf{Our Work.} }
+    \label{fig:our_work}
+\end{figure}
+
+\section{Assumptions and Justifications}
+\begin{enumerate}[leftmargin=2.5em]
+  \item \textbf{\large Assumption I:} The project timeline commences in 2050, and the total mass demand of 100 million tons ($M_{total}$) accounts for all necessary structural components, neglecting initial in-situ resource utilization (ISRU) savings. \\
+  \textbf{\large Justification:} Assuming a 2050 start provides a realistic timeframe for the maturation of critical precursor technologies like commercial fusion and graphene manufacturing. Treating the demand as fixed and conservative ensures that our feasibility analysis accounts for the worst-case logistical load, providing a robust upper bound for infrastructure requirements.
+
+  \item \textbf{\large Assumption II:} The Two-Stage Transport Topology. We assume the Space Elevator (Galactic Harbour) operates as a synchronized two-stage system: cargo is first lifted to the Apex Anchor via tether, then transferred to the Moon via tugs. The tether's lift rate $C_E$ is the binding constraint of the entire link.\\
+  \textbf{\large Justification:} Feasibility Simplification. While the physical mechanics of climbing are continuous, the system's throughput is dictated by the slowest segment. Assuming the tether is the bottleneck allows us to model the elevator as a flow channel with capacity $C_E$, decoupling it from the complex orbital mechanics of the Apex transfer tugs.
+
+  \item \textbf{\large Assumption III:} Rocket launch costs follow a technological learning curve (Wright’s Law) decaying at 5\% every 5 years, while Space Elevator operational capacity remains linear once built. \\
+  \textbf{\large Justification:} Historical aerospace data supports the use of learning curves to model cost reductions over time. Assuming linear capacity for the elevator simplifies the steady-state analysis, allowing us to focus on the long-term trade-offs between the high-frequency but costly rocket launches and the high-volume, low-marginal-cost elevator system.
+
+  \item \textbf{\large Assumption IV:} Mechanical failures in the transportation system follow a Poisson process with exponential inter-arrival times, and repair times are exponentially distributed. \\
+  \textbf{\large Justification:} The "Memoryless Property" of the Poisson process is a standard reliability engineering assumption for complex systems where failure risk does not strictly depend on age. Exponential repair times capture the "long tail" risk of rare, catastrophic failures that disrupt the supply chain significantly more than routine maintenance, which is critical for our resilience analysis.
+
+  \item \textbf{\large Assumption V:} Decarbonization of green energy. We assume that the carbon intensity of the Space Elevator's operation is a function of the Earth's grid mix $\chi$ (Green Penetration Rate), which can improve over time. \\
+  \textbf{\large Justification:} LCA Boundary Definition. The Elevator itself emits nothing locally. Its environmental footprint is entirely indirect (Scope 2 emissions). Linking it to the grid mix $\chi$ allows us to model the sensitivity of environmental impact to energy policy.
+
+  \item \textbf{\large Assumption VI:} Stratospheric Black Carbon accumulation follows a "Leaky Bucket" dynamic model with a residence time of approximately 4 years, and global mixing is instantaneous. \\
+  \textbf{\large Justification:} Physical accumulation is the primary driver of long-term environmental damage. The "Leaky Bucket" model captures the cumulative debt of pollutants that injection rates exceeding natural deposition create. Instantaneous mixing simplifies the atmospheric physics to a tractable global variable ($S_{BC}$), sufficient for estimating the order of magnitude of radiative forcing risks without running a full climate simulation.
+\end{enumerate}
+\newpage
+\section{Notation}
+
+\begin{longtable}{@{}llp{0.45\linewidth}@{}}
+\toprule
+Symbol & Type & Meaning (unit)\\
+\midrule
+$t$ & Index & Time step index (Day or Year)\\
+$M$ & Param & Total mass demand (Ton)\\
+$T$ & Var & Total project duration (Year)\\
+$C_E,\ C_R$ & Param & Nominal annual capacity of Elevator/Rocket (Ton/Year)\\
+$\alpha$ & Var & Elevator load ratio ($0 \le \alpha \le 1$)\\
+$p_R$ & Param & Rocket failure probability per attempt\\
+$A_E$ & Param & Elevator availability factor (0-1)\\
+$\tau_{\text{reset}}$ & Param & Mandatory downtime after failure (Day)\\
+$S_t$ & State & Water inventory level at day $t$ (Ton)\\
+$D_t$ & Param & Water demand at day $t$ (Ton/Day)\\
+\bottomrule
+\end{longtable}
+
+\section{Model I: The Hybrid Logistics Optimization Model (HLOM)}
+\subsection{Model Overview \& Logical Framework}
+To resolve the "Logistics Trilemma"---the conflict between minimizing construction time, controlling astronomical costs, and overcoming physical capacity limits---we propose the Hybrid Logistics Optimization Model (HLOM). Unlike traditional static models, HLOM incorporates a Dynamic Cost Engine driven by technological learning curves and utilizes a Concurrent Schedule Optimization to identify the optimal resource allocation.
+
+The computational framework follows four distinct phases:
+\begin{itemize}
+    \item \textbf{Initialization}: Define physical constraints ($M=10^8$ tons) and initialize the dynamic cost functions ($C_L(t)$).
+    \item \textbf{Baseline Evaluation}: Assess the feasibility boundaries of mono-modal strategies (Scenario A \& B).
+    \item \textbf{Hybrid Optimization}: Employ an iterative $\alpha$-scanning algorithm to minimize the objective function.
+    \item \textbf{Robustness Check}: Perform sensitivity analysis using the Architecture Factor ($k$) and generate the Pareto Frontier.
+\end{itemize}
+
+
+\subsection{Mechanical Modeling of Subsystems}
+Before optimizing the hybrid strategy, we must mathematically define the cost and capacity behaviors of the two distinct transport modes.
+
+The Space Elevator (SE) provides low-marginal-cost transport but is strictly limited by the throughput of the three Galactic Harbours.
+
+\noindent \textbf{Capacity Constraint}:\\
+Let $C_{SE}$ be the fixed annual system capacity ($3 \times 179,000$ tons). The time to transport mass $M$ is linear:
+\[
+T_A = \frac{M}{C_{SE}} \approx 186.22 \ \text{Years}
+\]
+
+\noindent \textbf{Cost Structure}:\\
+The cost consists of the tether lift (OPEX) plus the transfer from the Apex Anchor to the Moon. Unlike Earth-surface launches, the Apex release provides significant initial orbital energy. To model this rigorously, we introduce the \textbf{Apex Transfer Payload} ($q_{Apex}$), which may differ from Earth-launch payloads due to vacuum engine optimization.
+
+The total number of required transfer trips $N_{\text{trips}}$ is calculated as:
+\[
+N_{\text{trips}} = \left\lceil \frac{M}{q_{Apex}} \right\rceil
+\]
+
+Consequently, the Total Cost $Z_A$ is formulated as:
+\[
+Z_A = \underbrace{M \cdot c_E}_{\text{Elevator OPEX}} + \underbrace{\sum_{i=1}^{N_{\text{trips}}} \left( \beta \cdot C_L(y_i) \right)}_{\text{Apex-Moon Transfer}}
+\]
+Where $\beta \in [0.02, 0.1]$ represents the \textbf{Effective Cost Ratio}. This factor aggregates the dual benefits of minimal $\Delta v$ requirements for Trans-Lunar Injection (TLI) and increased payload mass fraction compared to surface launches.
+
+
+Rockets offer scalable throughput but face high unit costs. We reject the assumption of static costs and introduce a Learning Curve Model.
+
+\noindent \textbf{Dynamic Cost Engine}:\\
+The unit launch cost $C_L(y)$ decays exponentially due to technological maturation (e.g., reusability), bounded by a Asymptotic Cost Floor $C_{\text{floor}}$:
+\[
+C_L(y) = \maxfunc{C_{\text{floor}}}{C_{2050} \cdot (1 - \rho)^{\floor{\frac{y - 2050}{5}}}}
+\]
+Where $\rho=0.05$ represents a 5\% cost reduction every 5 years.
+
+\noindent \textbf{Throughput \& Time}:\\
+With $K$ sites and frequency $r$, the annual capacity is $\mathcal{R} = 365 \cdot K \cdot r \cdot q$.
+\[
+T_B = \frac{M}{\mathcal{R}}, \quad Z_B = \sum_{t=0}^{T_B} \mathcal{R} \cdot C_L(2050 + t)
+\]
+
+
+\subsection{The Hybrid Optimization Framework}
+Scenario C integrates both systems. We define a decision variable $\alpha \in [0, 1]$ as the Elevator Load Ratio, representing the fraction of total mass $M$ assigned to the Space Elevator.
+
+
+Since both systems operate simultaneously, the project completion time $T_C$ is determined by the "slowest link" (the bottleneck):
+\[
+T_C(\alpha) = \maxfunc{\underbrace{\frac{\alpha M}{C_{SE}}}_{T_{\text{Elevator}}}}{\underbrace{\frac{(1-\alpha)M}{\mathcal{R}}}_{T_{\text{Rocket}}}}
+\]
+
+Our primary objective in Model I is to identify the \textbf{Time-Optimal Allocation} $\alpha^*$ that minimizes the total project make-span $T_C$. By minimizing the "idling waste" where one system finishes long before the other, we maximize the utilization efficiency of the combined infrastructure:
+\[
+\min_{\alpha} \quad T_C(\alpha)
+\]
+Simultaneously, we calculate the associated Total Cost $Z(\alpha)$ to evaluate the economic implications of this maximum-speed strategy:
+\[
+Z(\alpha) = Z_A(\alpha M) + Z_B((1-\alpha)M)
+\]
+
+
+The minimum possible time ($T_{\text{min}}$) occurs at the \textbf{Load Matching Point}, where the Space Elevator and Rocket systems complete their transport tasks simultaneously ($T_{\text{Elevator}} = T_{\text{Rocket}}$). Setting the two terms in the max function equal, we derive the analytical solution:
+\[
+\frac{\alpha^* M}{C_{SE}} = \frac{(1-\alpha^*)M}{\mathcal{R}} \implies \alpha^* = \frac{C_{SE}}{C_{SE} + \mathcal{R}}
+\]
+Substituting the baseline parameters ($r=2, q=150$), we find the time-optimal load ratio to be $\alpha^* \approx 0.32$. This result confirms that to achieve the fastest construction speed, the system must leverage the high throughput of rockets despite their higher cost.
+\begin{figure}[H]
+  \centering
+   \includegraphics[width=0.45\linewidth]{latex1/New/q1-1.png}
+  \caption{Impact of Mass Split ($\alpha$) on Project Duration}
+  \label{fig:impact_of_mass_split_alpha_on_project_duration}
+\end{figure}
+The distinct "V-shape" confirms that deviations from the optimal split $\alpha^*$ lead to idle capacity in one system, unnecessarily prolonging the timeline.
+
+\subsection{Solution Results \& The Pareto Frontier}
+To validate the efficiency of our proposed Hybrid Model, we simulated the cumulative mass delivery progress over time for all three scenarios, as visualized in Figure \ref{fig:Comparative Cumulative Mass Delivery Trajectories across Scenarios.} .
+\begin{figure}[H]
+  \centering
+   \includegraphics[width=0.45\linewidth]{latex1/New/q1-2.png}
+  \caption{Comparative Cumulative Mass Delivery Trajectories across Scenarios}
+  \label{fig:Comparative Cumulative Mass Delivery Trajectories across Scenarios.}
+\end{figure}
+The trajectories reveal distinct dynamic behaviors:
+
+\noindent \textbf{The Baseline Stagnation (Scenario A)}: The light blue line exhibits a fixed, shallow gradient determined solely by the Space Elevator's throughput limit ($5.37 \times 10^5$ t/y). It intersects the target threshold in Year 2236, confirming that Scenario A is temporally infeasible for the 2050–2100 colonization window.
+
+\noindent \textbf{The Rocket Variance (Scenario B)}: The rocket-only scenarios (yellow/orange/blue lines) demonstrate that completion time is highly sensitive to launch frequency ($r$) and payload ($q$). Even under the most aggressive assumption ($r=2$ launches/day/site, $q=150$ tons), the project still requires 91.3 years.
+
+\noindent \textbf{The Hybrid Acceleration (Scenario C)}: The dark blue line represents the optimal Hybrid Strategy. By operating both systems in parallel, the effective throughput becomes additive:
+\[
+\text{Slope}_C = \text{Slope}_{SE} + \text{Slope}_{Rocket}
+\]
+Consequently, Scenario C achieves the target in 61.3 years, saving approximately 30 years compared to the best Rocket-only case and 125 years compared to the Elevator-only case. This visual evidence mathematically proves that concurrent utilization (Parallelism) is the only pathway to meet the deadline constraints.
+
+By sweeping $\alpha$ and calculating the corresponding $(T, \text{Cost})$ pairs, we generated the efficiency frontier of the logistics system.
+\begin{figure}[H]
+  \centering
+   \includegraphics[width=0.6\linewidth]{latex1/New/q1-3.png}
+  \caption{The Cost-Time Pareto Efficient Frontier}
+  \label{fig:The Cost-Time Pareto Efficient Frontier}
+\end{figure}
+The solution to the multi-objective optimization problem is visualized in Figure \ref{fig:The Cost-Time Pareto Efficient Frontier}, which plots the Pareto Efficient Frontier of the HLOM.
+
+
+\begin{itemize}
+    \item \noindent \textbf{Diminishing Returns}: The curve exhibits a convex shape. As we move from the right (Scenario A dominated) to the left (Hybrid/Rocket dominated), the slope steepens. This indicates that accelerating the project from 100 years to 80 years is relatively affordable, but pushing the timeline from 70 years down to the theoretical limit of 61.5 years incurs exponential cost increases.
+
+    \item\noindent \textbf{The Optimal Anchor}: The yellow marker identifies the Load Matching Point ($\alpha^* \approx 0.32$), where the Space Elevator and Rocket systems finish simultaneously. This point represents the global minimum for time ($T \approx 61.5y$).
+
+    \item\noindent \textbf{Robustness under Uncertainty}: The pink shaded area represents the Cost Uncertainty Band, generated by varying the initial rocket cost $C_{\text{base}}$ from $\$20\text{M}$ to $\$60\text{M}$. The width of this band highlights the financial risk associated with rocket dependency; notably, the band narrows as time increases (moving right), proving that strategies relying more on the Space Elevator are financially more predictable and robust.
+\end{itemize}
+
+
+
+\subsection{Sensitivity Analysis: Architecture Complexity \& Technology Tipping Point}
+
+The baseline model assumes "Direct Injection" ($k=1$), where 1 launch equals 1 payload delivered to the lunar surface. However, real-world orbital mechanics often require orbital refueling or multi-stage assembly. We introduce the \textbf{Architecture Factor} $k \in \{1, 4, 8, 16\}$ to test system robustness against logistical complexity.
+
+\noindent \textbf{Modified Parameters}:\\
+For a complexity level $k$, the effective throughput scales inversely:
+\[
+\text{Effective Payload}: \ q_{\text{eff}} = q / k, \quad \text{Effective Rocket Throughput}: \ \mathcal{R}_{\text{eff}} = \mathcal{R} / k
+\]
+
+\noindent \textbf{Impact Analysis}:
+\begin{itemize}
+    \item \textbf{On Scenario B (Rockets)}: The completion time $T_B$ scales linearly with $k$. If $k=4$, the rocket-only timeline extends to $>360$ years, rendering it technically infeasible for a mid-century colony.
+    \item \textbf{On Scenario A (Elevator)}: The Space Elevator system is largely invariant to $k$ for the Earth-to-Orbit segment, as the tether climber overcomes the gravity well without the tyranny of the rocket equation.
+\end{itemize}
+
+\noindent \textbf{Conclusion}: As $k$ increases, the optimal $\alpha^*$ shifts asymptotically towards 1.0. This mathematically proves that the Space Elevator serves as the strategic "backbone," providing resilience when traditional rocketry efficiency degrades due to orbital complexity.
+
+While $\alpha^* \approx 0.32$ is derived as a static optimum, the \textbf{dynamic nature} of costs suggests a potential for a time-varying strategy $\alpha(t)$. In the early phase (2050--2070), rocket costs $C_L(y)$ are high; in later phases, they decay due to the learning curve $\rho$.
+
+We investigated whether a \textbf{Variable $\alpha(t)$ Strategy} (e.g., relying heavily on the Elevator initially and ramping up Rocket usage only after costs drop) yields superior results. Our analysis reveals that the static $\alpha^*$ remains near-optimal.
+
+\noindent \textbf{The Bottleneck Dominance}:
+\[
+\frac{\partial \text{Utility}}{\partial \text{Throughput}} \gg \frac{\partial \text{Utility}}{\partial \text{Cost}}
+\]
+The \textbf{Capacity Bottleneck} dominates the \textbf{Cost Benefit}. To transport $10^8$ tons, the system requires maximum aggregate throughput from Day 1 ($t=0$). "Waiting" for cheaper rockets implies idling potential capacity, which results in an unacceptable extension of the completion time $T_C$. Therefore, \textbf{volume maximization supersedes marginal cost optimization}, justifying the immediate and continuous deployment of the Hybrid Strategy despite early-stage rocket costs.
+
+\section{Model II: Stochastic Robustness \& Adaptive Control System}
+\subsection{Uncertainty Modeling \& Logic Framework}
+The optimization in Model I assumes "perfect working order." However, real-world aerospace logistics are strictly governed by Stochastic Failures: Space Elevator (SE) tethers suffer from burst downtime due to oscillations, and Rocket launch pads require reset time ($\tau_{\text{reset}}$) after failures. In Model II, we construct a Four-Layer Stochastic Framework to quantify these risks and design an Adaptive Control Policy.
+
+We model the SE state as a Two-State Continuous Markov Chain:
+\begin{itemize}
+  \item State UP: Nominal throughput $C_E$.
+  \item State DOWN: Zero throughput.
+\end{itemize}
+Defined by failure rate $\lambda_E$ and repair rate $\mu_E$, the Steady-State Availability ($a_E$) is derived as:
+\[
+a_E = \frac{\mu_E}{\lambda_E + \mu_E} = \frac{1}{1 + \lambda_E \cdot \text{MTTR}_E}
+\]
+where $\text{MTTR}_E = 1/\mu_E$ is the Mean Time To Repair. Consequently, the Effective SE Throughput ($\tilde{C}_E$) is the nominal capacity discounted by availability:
+\[
+\tilde{C}_E = a_E \cdot C_E
+\]
+
+Rocket launches are modeled as Bernoulli trials with success probability $s=1-p_R$. Unlike simple probability discounting, we introduce a \textbf{Penalty Reset Mechanism}: a failure locks the launch pad for $\tau_{\text{reset}}$ days.
+
+To derive the Effective Launch Frequency ($f_{\text{eff}}$), we first define the expected number of successes ($E[S_r]$) and the expected cycle length ($E[L]$) for a single site per day:
+\[
+E[S_r] = \sum_{i=1}^{r} s^i, \quad E[L] = 1 + \tau_{\text{reset}}(1 - s^r)
+\]
+Where $1 - s^r$ represents the probability that at least one failure occurs in $r$ attempts, triggering the reset time.
+
+For computational tractability, we approximate the expected successes using the closed-form sum of the geometric series:
+\[
+E[S_r] \approx \frac{s(1 - s^r)}{1 - s}
+\]
+This analytical smoothing allows us to treat the daily launch rate $r$ as a \textbf{continuous decision variable} in the optimization layer. Consequently, the effective frequency (launches/day/site) is formulated as:
+\[
+f_{\text{eff}}(r, p_R, \tau_{\text{reset}}) = \frac{\frac{s(1 - s^r)}{1 - s}}{1 + \tau_{\text{reset}}(1 - s^r)}
+\]
+
+Incorporating weather availability ($a_B$) and payload ($q$), the Effective Rocket Throughput ($\tilde{C}_R$) is:
+\[
+\tilde{C}_R = 365 \cdot K \cdot a_B \cdot q \cdot f_{\text{eff}}
+\]
+
+Under stochastic conditions, the optimal mass allocation $\alpha^*$ (Load Matching Point) drifts to balance the effective capacities:
+\[
+\alpha^* = \frac{\tilde{C}_E}{\tilde{C}_E + \tilde{C}_R}
+\]
+
+\subsection{Layer B: Feasibility Region \& Capacity Gap}
+We define the Feasibility Region as the set of throughput combinations that satisfy the target completion time $T_{\text{target}}$. The mathematical necessary condition is:
+\[
+\tilde{C}_E + \tilde{C}_R \ge \frac{M}{T_{\text{target}}}
+\]
+To quantify the severity of risk, we calculate the Capacity Gap ($\Delta C$) for any given risk profile $S$:
+\[
+\Delta C(S) = \max\left(0, \ \frac{M}{T_{\text{target}}} - (\tilde{C}_E(S) + \tilde{C}_R(S))\right)
+\]
+A positive $\Delta C$ indicates that without strategic intervention, the system expects to miss the deadline.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\linewidth]{latex1/New/q2-2.png}
+  \caption{Feasibility Region Map with Completion Time Isochrones}
+  \label{fig:feasibility_region}
+\end{figure}
+
+\subsection{Layer C: Monte Carlo Simulation \& Tail Risk}
+Since analytical expectations mask the "burstiness" of failures, we employ a Day-Step Monte Carlo Simulation ($N=10,000$ runs) to track the system state variables:
+\begin{itemize}
+    \item \texttt{elevator\_down\_days}: If $>0$, SE throughput is zero.
+    \item \texttt{pad\_down\_days[$i$]}: If $>0$, the $i$-th launch site is locked.
+\end{itemize}
+
+We first evaluate \textbf{Policy P0 (Fixed Rocket Schedule)}. Under this policy, the logistics system dynamically routes cargo to any currently available transport mode, but the rocket fleet strictly adheres to a pre-set launch cadence ($r_{\text{base}}$) regardless of the backlog size.
+
+\noindent \textbf{Mechanism of Delay}:
+\begin{itemize}
+    \item \textbf{Inelastic Supply}: When the Space Elevator fails (State DOWN), the rocket fleet continues to operate at the nominal rate $r_{\text{base}}$. They do \textbf{not} surge to compensate for the lost elevator capacity.
+    \item \textbf{Backlog Accumulation}: Consequently, the capacity lost during elevator downtime becomes an unrecoverable "debt." This leads to a severe \textbf{Cargo Backlog Phenomenon}, where un-shipped mass piles up at the Earth Port, mechanically extending the project completion time $T$ significantly beyond the theoretical baseline.
+\end{itemize}
+
+The simulation outputs the completion time distribution $\{T^{(m)}\}$. We utilize Value at Risk ($\text{VaR}_{0.95}$) to quantify the tail risk:
+\[
+\text{VaR}_{0.95}(T) = \inf \left\{ t : \Pr(T \le t) \ge 0.95 \right\}
+\]
+
+\begin{figure}[!htb]
+  \centering
+  \begin{subfigure}[t]{0.32\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{latex1/New/boxplot1.png}
+    \caption{Mild}
+    \label{fig:completion_dist_mild}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{0.32\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{latex1/New/boxplot2.png}
+    \caption{Moderate}
+    \label{fig:completion_dist_moderate}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{0.32\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{latex1/New/boxplot3.png}
+    \caption{Severe}
+    \label{fig:completion_dist_severe}
+  \end{subfigure}
+  \caption{Comparative completion time distributions (Policy P0 vs P1) under three risk tiers.}
+  \label{fig:completion_dist}
+\end{figure}
+The plots illustrate the Probability Density Functions (PDFs) of project completion times for Policy P0 (Fixed, Red) and Policy P1 (Dynamic, Blue) across three risk tiers.
+\begin{itemize}
+\item MILD (Left): Under low stress, both policies perform similarly ($\sim$104 years).
+\item  MODERATE (Center): Divergence begins. The Fixed Policy shifts right to $\sim$127 years with a widening tail. The Dynamic Policy holds the timeline near 125 years.
+\item SEVERE (Right): The contrast is critical. The Fixed Policy collapses, shifting the mean to $\sim$196 years with a "Heavy Tail," confirming that static strategies lack robustness against clustered failures. In contrast, the Dynamic Policy utilizes surge capacity to anchor the timeline around 188 years with a much narrower variance.
+\end{itemize}
+
+\section{Model III: Water Supply Chain Resilience \& Cost Analysis}
+\subsection{Problem Analysis: The "Water Shock" \& Closed-Loop Solution }
+In the context of Q3, a naive calculation of water demand for 100,000 residents yields an annual requirement of 6.39 million tons, creating a Capacity Gap of 11.8x against the Space Elevator's capacity ($C_E \approx 5.4 \times 10^5$ tons/year). A direct "open-loop" supply chain is physically impossible.
+
+To resolve this paradox, we strictly integrate the Environmental Control and Life Support System (ECLSS) logic. We define the Net Daily Demand ($d_{\text{day}}$) by introducing the recycling efficiency $\eta$ (set to 0.98 based on ISS standards):
+\[
+d_{\text{day}} = \frac{P \cdot \bar{w} \cdot (1 - \eta)}{1000} \quad (\text{tons/day})
+\]
+The annual demand ($D_{\text{year}}$) becomes:
+\[
+D_{\text{year}} = 365 \cdot d_{\text{day}}
+\]
+Substituting values ($P=10^5$, $\bar{w}=175$ L, $\eta=0.98$), the net demand drops to 350 tons/day (approx. 127,750 tons/year).
+
+\noindent\textbf{Feasibility Check}: We verify this against the Space Elevator's daily throughput ($C_E/365 \approx 1471$ tons):
+\[
+\text{Feasibility Check:} \quad d_{\text{day}} \le \frac{C_E}{365} \implies 350 \le 1471 \quad (\text{Passed})
+\]
+This transformation reduces the problem from "Impossible" to a Logistically Constrained Optimization.
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{latex1/New/q3-1.png}
+    \caption{Physical Feasibility Check}
+    
+    \label{fig:feasibility_check}
+    \vspace{2em} % 无图片时保留空白，有图片则删除此行
+    \textit{Note}: This chart demonstrates that without recycling ($\eta=0$), the demand exceeds elevator capacity by nearly 1200\% (Red bar). Only with high-efficiency recycling ($\eta \ge 0.95$, Green bars) does the load ratio drop below 1.0, making the logistics feasible.
+\end{figure}
+
+\subsection{The Stochastic Inventory Dynamics }
+We model the lunar water reservoir as a Discrete-Time Stochastic Inventory System to handle supply interruptions.
+
+Let $W_t$ denote the water inventory level (tons) at the end of day $t$. The system state evolves according to the mass balance equation:
+\[
+W_{t+1} = W_t + x_{E,t} + x_{R,t} - d_{\text{day}}, \quad \forall t \in \{0, \dots, 364\}
+\]
+Subject to the constraints $W_t \ge 0$ (non-negative inventory) and delivery limits:
+\[
+0 \le x_{E,t} \le c_{E,\text{day}}^{(w)}, \quad 0 \le x_{R,t} \le c_{R,\text{day}}^{(w)}
+\]
+Where $x_{E,t}$ and $x_{R,t}$ are the actual delivered quantities from the Space Elevator and Rockets, conditioned by the stochastic availability states derived in Model II.
+
+We implement an Order-up-to Policy defined by two strategic parameters: Safety Stock Days ($L_{\text{safe}}$) and Buffer Days ($B_{\text{buffer}}$).
+
+\noindent\textbf{Safety Threshold ($s$)}: A strategic reserve to survive the longest expected elevator downtime ($MTTR_{max}$):
+\[
+s = L_{\text{safe}} \cdot d_{\text{day}}
+\]
+\textbf{Target Threshold ($S$)}: The operational target to smooth out arrival jitters:
+\[
+S = (L_{\text{safe}} + B_{\text{buffer}}) \cdot d_{\text{day}}
+\]
+\textbf{Replenishment Decision}: The logistics system generates a daily plan $x_t^{\text{plan}}$ to restore inventory to $S$, prioritizing the Space Elevator due to lower marginal cost:
+\[
+x_t^{\text{plan}} = \min \left( c_{E,\text{day}}^{(w)} + c_{R,\text{day}}^{(w)}, \ \max(0, S - W_t) \right)
+\]
+\textbf{Allocation logic}:
+\[
+x_{E,t} = \min(x_t^{\text{plan}}, c_{E,\text{day}}^{(w)}), \quad x_{R,t} = x_t^{\text{plan}} - x_{E,t}
+\]
+
+\noindent\textbf{Parameter Calibration}: To ensure robust performance, we calibrated the policy parameters based on the reliability data from Model II:
+\begin{itemize}
+    \item \textbf{Operational Buffer ($B_{\text{buffer}} = 15$ days)}: Designed to absorb high-frequency variances (e.g., launch delays), effectively decoupling the daily order cycle from transient noise.
+    \item \textbf{Strategic Safety Stock ($L_{\text{safe}} = 30$ days)}: Acts as the "Last Line of Defense" to survive long-duration elevator outages ($MTTR \approx 14$ days).
+\end{itemize}
+
+\subsection{Simulation \& Risk Visualization }
+We performed a Day-Step Monte Carlo Simulation ($N=100$ runs, $T=365$ days) to stress-test this policy under the Severe Risk Profile calibrated in Model II ($a_E \approx 0.75$).
+First, we analyze a single realization to understand the system's response to failure.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{latex1/New/q3-2.png}
+    \caption{Water Inventory Dynamics (Single Sample Path)}
+    \label{fig:inv_single_path}
+    \textit{Note}: Sawtooth Pattern: The line reflects the regular cycle of consumption and replenishment. The "Deep Dive" Event: As highlighted around Day 150, a major Space Elevator failure causes the inventory to plunge rapidly. System Recovery: The sharp rebound confirms the activation of the Rocket Surge Policy. Without the pre-stocked Safety Buffer ($L_{\text{safe}}=30$), this "dive" would have intercepted the zero line (Red Dashed Line), causing a catastrophic stockout.
+\end{figure}
+
+To quantify tail risk, we overlay 100 independent simulations to form a risk envelope.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.68\textwidth]{latex1/New/q3-3.png}
+    \caption{Monte Carlo Inventory Risk Envelope (Spaghetti Plot)}
+    \label{fig:inv_risk_envelope}
+    \textit{Note}: The "Average" Trap: The dense cluster of lines in the center suggests an average inventory of $\sim$12,000 tons, which appears safe. Tail Risk Realizations Detection: The critical insight lies in the bottom-most trajectories. Several lines scrape the X-axis (Zero Inventory). These represent "Tail Risk Realizations" scenarios where clustered failures overwhelm the buffer.
+\end{figure}
+
+\noindent\textbf{Conclusion}: To ensure $P_{\text{stockout}} < 1\%$, the parameter $L_{\text{safe}}$ must be set to at least 30 days.
+
+\subsection{Cost Structure Analysis }
+We quantify the Total Additional Cost ($\Delta C$) required to maintain this supply chain. This is the sum of the Elevator OPEX and Rocket Launch costs:
+\[
+\Delta C = \underbrace{\sum_{t} \left( x_{E,t} \cdot c_E + \left\lceil \frac{x_{E,t}}{q_A} \right\rceil \cdot C_A \right)}_{\text{Elevator System}} + \underbrace{\sum_{t} \left\lceil \frac{x_{R,t}}{q} \right\rceil \cdot \frac{C_L}{s_R}}_{\text{Rocket System}}
+\]
+
+\noindent\textit{Interpretation}: The high cost of rockets is driven by the need for "surge capacity" during elevator downtime. This cost (\$24.88B) acts as an "insurance premium" against stockouts.
+
+\subsection{Pareto Optimization: Cost vs. Risk }
+To determine the optimal $L_{\text{safe}}$, we scanned multiple policy parameters to find the trade-off between financial cost and operational risk.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{latex1/New/q3-5.png}
+   \caption{The Cost-Risk Trade-off Frontier}
+\label{fig:pareto_frontier}
+\textit{
+Each point represents a simulation scenario with a different Safety Stock ($L_{\text{safe}}$) setting.
+\textbf{X-Axis}: Total Annual Logistics Cost (\$ Billions).
+\textbf{Y-Axis}: Probability of Stockout ($P_{\text{stockout}}$).
+}
+\end{figure}
+
+\noindent\textbf{Analysis}: The curve (implied from the simulation data points) exhibits a classic "L-shape."
+\begin{itemize}
+    \item \textbf{Region I (High Risk)}: At low costs ($L_{\text{safe}} < 10$), stockout risk is high (>5 days/year).
+    \item \textbf{Region II (Diminishing Returns)}: As we increase investment past the "Knee Point" (around \$36B), the risk reduction becomes marginal.
+\end{itemize}
+\noindent\textbf{Optimal Strategy}: The "Knee Point" corresponds to $L_{\text{safe}}=30$ days. This is the most cost-effective strategy that maintains stockout risk $< 1\%$.
+
+\subsection{Strategic Extension: The ISRU Pivot }
+While the transport model is feasible ($L_{\text{safe}}=30$), it implies a continuous logistics drain. We introduce a strategic extension variable $u$: Local Lunar Water Production Rate (tons/day).
+
+The net shipping demand is modified as:
+\[
+d_{\text{day}}^{\text{ship}} = \max(0, \ d_{\text{day}} - u)
+\]
+This modifies the inventory dynamics to:
+\[
+W_{t+1} = W_t + x_{E,t} + x_{R,t} - d_{\text{day}}^{\text{ship}}
+\]
+
+\noindent\textbf{Strategic Conclusion}: \\
+Our model exposes the 'Logistical Fragility' of an Earth-dependent water supply. While a 30-day buffer makes it survivable, the annual OPEX of $\approx \$24B$ is economically unsustainable ($>20\%$ of total colony budget). Thus, the Transport System is merely a provisional bridge. The transition to ISRU ($u \ge d_{day}$) is not an option; it is an economic imperative to decapitate the recurring logistics cost.
+
+\section{Model IV: Integrated Environmental \& Operational Simulation (IEOS)}
+\subsection{Problem Abstraction \& System State}
+To comprehensively evaluate the trade-offs between construction speed, operational reliability, and environmental sustainability, we developed the Integrated Environmental \& Operational Simulation (IEOS). Unlike static assessments, IEOS is a discrete-time, multi-phase stochastic engine that couples logistics capacity with an "Environmental Ledger."
+
+\begin{itemize}
+    \item \textbf{Time}: Discrete days indexed by $t = 0, 1, 2, \dots$, corresponding to the global clock $t_{\text{global}}$.
+    \item \textbf{Launch Sites}: Indexed by $k \in \{1, \dots, K\}$, representing individual rocket pads.
+\end{itemize}
+
+We define the system configuration using a decision vector $\pi$, which is subjected to Monte Carlo sweeping:
+\[
+\pi = (K, r, \chi, s_E)
+\]
+Where:
+\begin{itemize}
+    \item $K \in \mathbb{Z}^+$: Number of active rocket launch sites ($K_{\text{pads}}$).
+    \item $r \in \mathbb{R}^+$: Daily launch intensity per site (scheduled attempts, $r_{\text{rate}}$).
+    \item $\chi \in [0, 1]$: Grid Decarbonization Ratio, representing the cleanliness of the energy mix ($\chi_{\text{green}}$).
+    \item $s_E \in [0, 1]$: Elevator Capacity Scaling Factor ($s_{\text{elev\_scale}}$).
+\end{itemize}
+
+\subsection{Stochastic Capacity Engines}
+At each time step $t$, the system generates available capacity vectors based on infrastructure reliability.
+
+The elevator's state is governed by a Burst-Failure Process. Let $S^E_t$ be the remaining repair days. The daily effective elevator capacity $m^E_t$ is determined by:
+\[
+m^E_t = 
+\begin{cases} 
+0 & \text{if } S^E_t > 0 \text{ (Under Repair)} \\
+0 & \text{if } U \sim \mathcal{U}(0,1) < (1 - e^{-\lambda}) \text{ (New Failure)} \\
+C_E \cdot s_E & \text{otherwise (Operational)}
+\end{cases}
+\]
+If a failure occurs, repair time is sampled from an exponential distribution: $S^E_{t+1} \leftarrow \lceil \text{Exp}(\mu) \rceil$.
+
+Rockets are modeled as independent parallel servers with a Penalty Reset mechanism. For each pad $k$:
+\begin{itemize}
+    \item \textbf{State Check}: If pad $k$ is in cooldown (pad\_down\_days $> 0$), it remains inactive.
+    \item \textbf{Weather Check}: Launch is permitted only if weather condition $A_B = 1$.
+    \item \textbf{Attempt Generation}: The scheduled attempts $n^{\text{att}}_k$ follow a deterministic-plus-stochastic rule:
+    \[
+    n^{\text{att}}_k = \lfloor r \rfloor + \mathbb{I}(U < (r - \lfloor r \rfloor))
+    \]
+    \item \textbf{Outcome}: Each attempt succeeds with probability $P_{\text{succ}}$. A failure triggers a "Lockout," setting the pad's state to $\tau_{\text{reset}}$.
+\end{itemize}
+The total daily rocket capacity $m^R_t$ is the sum of successful payloads:
+\[
+m^R_t = \sum_{k=1}^{K} s_{t,k} \cdot q
+\]
+Where $s_{t,k}$ is the success count for pad $k$, and $q$ is the standard payload ($q_{\text{rocket\_payload\_ton}}$).
+
+\subsection{Multi-Phase Sequential Dynamics}
+The simulation proceeds through two distinct phases, linking construction to operation.
+
+The objective is to transport the infrastructure mass $M^{\text{build}}_{\text{target}}$ ($10^8$ tons). The system operates in "Maximum Effort" mode:
+\[
+B_{t+1} = B_t + m^E_t + m^R_t
+\]
+The phase concludes at $T_{\text{build}}$ when $B_t \ge M^{\text{build}}_{\text{target}}$. The total emissions from this phase constitute the Construction Carbon Debt ($E_{\text{build}}$).
+
+Upon construction completion, the system switches to water logistics for the colony population $P=10^5$.
+\begin{itemize}
+    \item \textbf{Demand}: $D = P \cdot w$ (17,500 tons/day).
+    \item \textbf{Safety Target}: $W^\star = D \cdot L_{\text{safe}}$.
+\end{itemize}
+
+\noindent \textbf{Phase 2a: Startup Fill (Eq. StartUp-Fill)} \\
+The system accumulates initial stock without consumption until $W_t \ge W^\star$:
+\[
+W_{t+1} = W_t + m^E_t + m^R_t
+\]
+
+\noindent \textbf{Phase 2b: Steady-State Operation} \\
+We implement an Order-up-to Policy to maintain water security.
+\begin{itemize}
+    \item \textbf{Gap Calculation (Eq. Op-Gap)}:
+    \[
+    g_t = \max(0, W^\star - W_t + D)
+    \]
+    \item \textbf{Capacity Allocation (Eq. Op-Alloc)}: Priority is given to the elevator to minimize costs.
+    \[
+    x^E_t = \min(g_t, m^E_t), \quad x^R_t = \min(g_t - x^E_t, m^R_t)
+    \]
+    \item \textbf{Inventory Dynamics (Eq. Inv-Dyn)}:
+    \[
+    W_{t+1} = \max(0, W_t + (x^E_t + x^R_t) - D)
+    \]
+    If $W_{t+1} = 0$, a Stockout Event is recorded.
+    \item \textbf{Service Level (Eq. Service-Level)}: \\
+    The annual service level is calculated as:
+    \[
+    \text{SL} = \frac{\sum_{t=1}^{365} \text{demand\_met}_t}{\sum_{t=1}^{365} D}
+    \]
+\end{itemize}
+
+\subsection{Environmental Ledger \& Evaluation}
+We integrate an accounting system (EnvLedger) to track cumulative impacts.
+
+Total $\text{CO}_2$-equivalent emissions are aggregated daily. We distinguish between construction and operational phases to capture the "Pollution Shift":
+\[
+E_{\text{CO2}}(t) = E_{\text{build}} + \sum_{\tau=T_{\text{build}}}^{t} \left( a_\tau \cdot e_{\text{launch}} + m^E_\tau \cdot e_{\text{grid}}(\chi) \right)
+\]
+The operational increment is $E_{\text{op}} = E_{\text{cum,end}} - E_{\text{cum,start}}$.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{latex1/New/q4-1.png}
+    \caption{Fig. X Stacked plot of environmental component proportions}
+    \label{fig:Fig. X Stacked plot of environmental component proportions}
+\end{figure}
+\begin{itemize}
+    \item \textbf{Pollution Shift}: The Rocket-Heavy scenario (Left) has massive operational emissions (dark blue), while the Elevator-Heavy scenario (Right) shifts the burden to construction (light blue).
+    \item \textbf{Intergenerational Equity}: The elevator front-loads the environmental cost, sparing future generations from continuous pollution.
+\end{itemize}
+
+Stratospheric Black Carbon (BC) accumulates and decays over time. The stock $S_{\text{bc}}(t)$ evolves as:
+\[
+S_{\text{bc}}(t+1) = S_{\text{bc}}(t) \cdot (1 - \delta) + u(t)
+\]
+where $\delta$ is the decay rate and $u(t)$ is the daily injection from rockets. The peak risk is $S_{\max} = \max_t S_{\text{bc}}(t)$.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{latex1/New/q4-2.png}
+    \caption{Fig. X Cumulative curve of black carbon}
+    \label{fig:Fig. X Cumulative curve of black carbon}
+\end{figure}
+\begin{itemize}
+    \item \textbf{The Accumulation Trap}: The Red line (Rocket-Heavy) rises steeply to $>2000$ tons, indicating that injection far exceeds natural decay.
+    \item \textbf{The Safe Harbor}: The Green line (Elevator-Heavy) stabilizes at a much lower level ($<200$ tons), proving its superior long-term sustainability.
+\end{itemize}
+
+To synthesize the disparate impacts (Carbon, Soot, Ozone) into a unified metric for optimization, we define the proxy EDI:
+\[
+\text{EDI} = \frac{1}{3} \left( \frac{E_{\text{CO2}}}{10^8} + \frac{S_{\max}}{10^4} + \frac{E_{\text{O3-penalty}}}{1000} \right)
+\]
+This metric normalizes cumulative Carbon ($E_{\text{CO2}}$), peak Stratospheric Black Carbon ($S_{\max}$), and Ozone threshold penalties ($E_{\text{O3-penalty}}$), guiding the selection of the Pareto-optimal design $\pi^*$.
+
+\begin{itemize}
+    \item \textbf{Tail Risk}: The Rocket-Heavy scenario (Red) exhibits a wide spread and high median peak load, indicating significant uncertainty and potential for extreme environmental damage.
+    \item \textbf{Predictability}: The Elevator-Heavy scenario (Green) is tightly clustered, offering a predictable and low-risk environmental profile.
+\end{itemize}
+
+\subsection{Trade-off Analysis: The Synergistic Frontier}
+We plotted the Total Project Cost against the Environmental Damage Index (EDI) to identify optimal configurations.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{latex1/New/q4-3.png}
+    \caption{Fig. X Time-EDI Pareto chart}
+    \label{fig:Fig. X Time-EDI Pareto chart}
+\end{figure}
+\begin{itemize}
+    \item \textbf{Synergy, Not Conflict}: The data reveals a Positive Correlation (points cluster from bottom-left to top-right). The ideal points (bottom-left, yellow/green) correspond to High Elevator Share.
+    \item \textbf{Win-Win}: This implies that investing in the Space Elevator minimizes both financial cost and environmental damage simultaneously.
+\end{itemize}
+
+However, a true trade-off exists between Speed and Environment.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{latex1/New/q4-4.png}
+    \caption{X EDI-Cost Pareto chart}
+    \label{fig:X EDI-Cost Pareto chart}
+\end{figure}
+\begin{itemize}
+    \item \textbf{The Convex Curve}: Accelerating the project (moving left on X-axis) forces the use of massive rocket fleets, causing EDI to spike exponentially (moving up on Y-axis).
+    \item \textbf{Policy Insight}: Reducing the timeline significantly increases environmental damage. A "Patient Construction" strategy is the most effective environmental policy.
+\end{itemize}
+
+Finally, we assess the impact of the global energy grid's cleanliness ($\chi$) on the Space Elevator's viability.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{latex1/New/q4-5.png}
+    \caption{Sensitivity to Grid  Decarbonization}
+    \label{fig:Sensitivity to Grid  Decarbonization}
+\end{figure}
+\begin{itemize}
+    \item \textbf{Linear Coupling}: The Space Elevator's carbon footprint is linearly coupled to the Grid Decarbonization Ratio ($\chi$).
+    \item \textbf{Strategic Alignment}: To fully realize the environmental benefits of the Space Elevator, the project must be synchronized with global terrestrial decarbonization initiatives ($\chi \to 1.0$).
+\end{itemize}
+
+\section{Conclusion}
+We have developed the \textbf{Integrated Space Logistics Framework (ISLF)}, a multi-layered system coupling dynamic cost optimization, stochastic resilience analysis, and environmental impact assessment. Our research confirms that a \textbf{Hybrid Strategy} (assigning 32\% load to Space Elevators) unlocks the theoretical minimum construction time of \textbf{61.3 years}, yet requires an \textbf{Adaptive Surge Policy} ($\gamma=1.8$) to neutralize the "heavy tail" risks of mechanical failures. Crucially, we identified a fundamental "Pollution Shift": while rockets are necessary for speed, they incur an exponential environmental penalty, whereas the Space Elevator serves as the "Green Lifeline" capable of minimizing the Environmental Damage Index (EDI) by an order of magnitude. Consequently, we recommend the Administration execute a phased approach—utilizing the Hybrid Surge for rapid establishment followed by an immediate pivot to an \textbf{Elevator-Dominant} supply chain for operations. This strategy successfully balances the "Logistics Trilemma," proving that while speed establishes the colony, sustainability ensures its survival.
+
+% ======================================================================
+% 4) 一页备忘录（必需）
+% ======================================================================
+\begin{memosheet}
+\noindent\textbf{To:} Director, Lunar Colony Administration (LCA) \\
+\textbf{From:} Team \teamno \\
+\textbf{Subject:} Strategic Roadmap: Hybrid Construction \& Sustainable Operations \\
+\textbf{Date:} February 6, 2026 [8pt]
+\textbf{Strategic Initiative 1: The "Hybrid Surge" Construction Strategy (Phase I)}\\
+\textbf{Benefits:}
+\begin{itemize}
+    \item \textbf{Speed Maximization:} By assigning 32\% of cargo to Space Elevators and 68\% to Rockets, we achieve the theoretical minimum construction time of \textbf{61.3 years}, saving 30 years compared to rocket-only strategies.
+    \item \textbf{Cost Efficiency:} This hybrid approach leverages the low marginal cost of elevators for massive structural components while utilizing rockets for time-sensitive payloads, reducing total costs by an order of magnitude compared to expedited rocket timelines.
+    \item \textbf{Risk Resilience:} Implementing an \textbf{Adaptive Surge Policy ($\gamma=1.8$)} ensures a 95\% probability of meeting the deadline, as rocket fleets can dynamically increase activity to compensate for inevitable elevator downtime.
+\end{itemize}
+\textbf{Drawbacks/Disruptions:} This phase entails high initial carbon emissions due to rocket frequency. \textbf{Mitigation:} Accept this temporary "pollution debt" to secure the colony quickly, while strictly enforcing ECLSS recycling standards to minimize net transport mass.[6pt]
+\textbf{Strategic Initiative 2: The "Green Lifeline" Sustainment Strategy (Phase II)}\\
+\textbf{Benefits:}
+\begin{itemize}
+    \item \textbf{Survival Assurance:} A \textbf{Dual-Threshold Inventory Policy} with a 30-day safety stock guarantees water security for 100,000 residents, effectively buffering against "black swan" supply chain interruptions.
+    \item \textbf{Environmental Restoration:} Transitioning to an \textbf{Elevator-Dominant} logistics mode for daily sustainment drastically reduces Stratospheric Black Carbon, minimizing the long-term Environmental Damage Index (EDI).
+    \item \textbf{Economic Sustainability:} Utilizing the elevator for 90\%+ of recurring logistics (water/food) slashes long-term operational expenditures (OPEX) to financially viable levels.
+\end{itemize}
+\textbf{Drawbacks/Disruptions:} The system becomes vulnerable to single-point tether failures. \textbf{Mitigation:} We strongly recommend pivoting to \textbf{In-Situ Resource Utilization (ISRU)} after Year 10 to reduce Earth dependence and maintain a strategic reserve of reusable rockets as emergency backup.[6pt]
+\textbf{Recommendation:} 
+We urge the Administration to execute \textbf{Initiative 1} immediately to secure the colony's physical establishment by $\sim$2111. Once operational, the logistics architecture must pivot strictly to \textbf{Initiative 2}. While speed builds the colony, \textbf{reliability and sustainability} are the ultimate currencies that will keep it alive.
+
+\end{memosheet}
+
+% ======================================================================
+
+
+
+% ======================================================================
+% 5) 参考文献 + 附录
+% ======================================================================
+\newpage
+\bibliographystyle{unsrtnat}  % 保留你原有的参考文献样式
+\addcontentsline{toc}{section}{References}  % 保留参考文献加入目录的设置
+\nocite{*}  % 核心命令：调用bib库中所有文献（未\cite的也会显示）
+\bibliography{references}  % 调用你的bib文献库文件
+
+\newpage
+\appendix
+\section{Additional Figures / Derivations (Optional)}
+[Put non-essential details here to keep the main story tight.]
+
+% ======================================================================
+% 6) AI 使用报告（如适用；不计入 COMAP 页面限制）
+% ======================================================================
+\section*{AI Use Report (If Used)}
+
+\end{document}

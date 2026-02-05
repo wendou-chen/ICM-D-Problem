@@ -13,6 +13,7 @@ def simulate_inventory_trajectory(
     phi_e: float = 1.0,
     phi_r: float = 1.0,
     return_trajectory: bool = False,
+    return_daily_logs: bool = False,
     step5_mode: bool = False,
     risk_params: Dict[str, Any] = None
 ) -> Dict[str, Any]:
@@ -24,11 +25,12 @@ def simulate_inventory_trajectory(
     K = rocket_config['K']
     q = rocket_config['q']
     r_base = rocket_config['r_base']
-    
+
     # State initialization
     inventory = initial_inventory_tons
     history_inv = [inventory]
-    
+    daily_logs = []  # To store daily details if requested
+
     elevator_down_days = 0
     pad_down_days = np.zeros(K, dtype=int)
     
@@ -53,8 +55,11 @@ def simulate_inventory_trajectory(
         lam, mu = preset.lambda_mu
     
     # Simulation Loop
-    for _ in range(duration_days):
-        
+    for t in range(duration_days):
+
+        # Track daily attempts
+        daily_attempts_R = 0
+
         # --- 1. Determine Needs (Policy A) ---
         target_stock_S = (policy.L_SAFE_DAYS + policy.B_BUFFER_DAYS) * daily_demand_tons
         need = max(0.0, target_stock_S - inventory)
@@ -116,9 +121,10 @@ def simulate_inventory_trajectory(
                 # Attempt launches
                 for _ in range(r_attempts):
                     if launches_needed == 0: break
-                    
+
                     total_attempts_R += 1
-                    
+                    daily_attempts_R += 1
+
                     fail_prob = p_R_fail if step5_mode else preset.P_R
                     
                     if np.random.random() < fail_prob:
@@ -152,7 +158,17 @@ def simulate_inventory_trajectory(
             min_inventory = inventory
             
         history_inv.append(inventory)
-        
+
+        if return_daily_logs:
+            daily_logs.append({
+                't': t,
+                'inventory': inventory,
+                'x_E': x_E,
+                'x_R': x_R,
+                'attempts_R': daily_attempts_R,
+                'elevator_status': 'down' if elevator_down_days > 0 else 'up'
+            })
+
     result = {
         'min_inventory': min_inventory,
         'stockout_days': stockout_days,
@@ -163,8 +179,11 @@ def simulate_inventory_trajectory(
         'total_failures_R': total_failures_R,
         'elevator_up_days': elevator_up_days
     }
-    
+
     if return_trajectory:
         result['trajectory'] = history_inv
-        
+
+    if return_daily_logs:
+        result['daily_logs'] = daily_logs
+
     return result

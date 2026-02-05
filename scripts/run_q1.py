@@ -11,6 +11,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from configs.constants import Problem, Elevator, Rocket, Cost
 from src.q1.baseline import build_q1_baseline_table
 from src.q1.robustness_interval import interval_time_A, interval_time_B, interval_time_C_lower_bound
+from src.q1.feasibility import alpha_star
 from src.q1.plots import plot_cumulative_mass, plot_pareto_cost_time_band
 from src.q1.capacity import elevator_total_capacity_tpy, rocket_annual_capacity_tpy, rocket_launches_required
 from src.q1.cost_model import total_rocket_cost_over_schedule
@@ -40,7 +41,14 @@ def generate_alpha_scan_table() -> pd.DataFrame:
     beta_low = Cost.BETA_APEX_RANGE[0]
     beta_high = Cost.BETA_APEX_RANGE[1]
 
+    # Calculate exact optimal alpha to ensure we hit the true minimum time
+    # This resolves discrepancy between discrete scan min and analytical min
+    alpha_opt_exact = alpha_star(cap_elev, cap_rock)
+
     alphas = np.linspace(0, 1, 101)
+    # Insert the exact optimal alpha into the scan array
+    alphas = np.sort(np.unique(np.append(alphas, alpha_opt_exact)))
+
     rows = []
 
     for alpha in alphas:
@@ -146,7 +154,8 @@ def main():
     plot_cumulative_mass(df_baseline, out_dir_figs)
 
     # Plot 2: Cost-Time Band
-    plot_pareto_cost_time_band(df_scan, out_dir_figs)
+    # We used r=2, q=150 in generate_alpha_scan_table (lines 25-26)
+    plot_pareto_cost_time_band(df_scan, out_dir_figs, r_val=2, q_val=150.0)
 
     print(f"      Saved figures to: {out_dir_figs}")
 

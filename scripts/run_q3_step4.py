@@ -10,12 +10,14 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from configs.constants import WaterDemand, WaterPolicy, Elevator, Rocket, Cost, RELIABILITY_PRESETS
 from src.q3 import analytics, simulation
+from src.utils.plot_style import apply_style
 
 OUTPUT_DIR = "outputs/q3/step4"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 def run_step4_cost_analysis():
     print("Running Step 4: Cost Analysis (Severe Scenario, Year 1)...")
+    apply_style()
 
     # 1. Define Parameters
     eta = 0.98
@@ -125,6 +127,43 @@ def run_step4_cost_analysis():
     df_summary.to_csv(csv_path, index=False)
     print(f"Saved Step 4 summary data to {csv_path}")
 
+    # --- Save Plot Data (User Request) ---
+
+    # 1. Cost Breakdown Data
+    df_breakdown = pd.DataFrame({
+        'Component': ['Elevator Lift Ops', 'Apex Transfer', 'Rocket Launches'],
+        'Cost_USD': [cost_elevator_lift, cost_elevator_apex, total_cost_rocket]
+    })
+    df_breakdown.to_csv(os.path.join(OUTPUT_DIR, "plot_data_cost_breakdown.csv"), index=False)
+
+    # 2. Asymmetry Data
+    total_mass = avg_xE + avg_xR
+    total_cost = total_annual_cost
+    df_asymmetry = pd.DataFrame({
+        'System': ['Elevator', 'Rocket'],
+        'Mass_Ton': [avg_xE, avg_xR],
+        'Mass_Share': [avg_xE / total_mass, avg_xR / total_mass],
+        'Cost_USD': [total_cost_elevator, total_cost_rocket],
+        'Cost_Share': [total_cost_elevator / total_cost, total_cost_rocket / total_cost]
+    })
+    df_asymmetry.to_csv(os.path.join(OUTPUT_DIR, "plot_data_asymmetry.csv"), index=False)
+
+    # 3. Cost Distribution Data (Calculated below)
+    # We need to calculate costs_arr first before saving
+    costs_arr = []
+    for i in range(len(results_xE)):
+        xe = results_xE[i]
+        xr = results_xR[i]
+        c_elev = xe * (c_E_per_ton + apex_cost_per_ton)
+        attempts = (xr / q_payload) / s_R
+        c_rock = attempts * C_L_launch
+        costs_arr.append(c_elev + c_rock)
+
+    df_dist = pd.DataFrame({'Sim_ID': range(len(costs_arr)), 'Total_Annual_Cost_USD': costs_arr})
+    df_dist.to_csv(os.path.join(OUTPUT_DIR, "plot_data_cost_distribution.csv"), index=False)
+
+    print(f"Saved plot source data to {OUTPUT_DIR}/plot_data_*.csv")
+
     # --- Visualization ---
 
     # Plot 1: Cost Breakdown (Stacked Bar)
@@ -150,6 +189,7 @@ def run_step4_cost_analysis():
 
     # Format y-axis to Billions
     current_values = plt.gca().get_yticks()
+    plt.gca().set_yticks(current_values)  # Fix: Explicitly set ticks
     plt.gca().set_yticklabels(['${:,.0f}B'.format(x/1e9) for x in current_values])
 
     plt.savefig(os.path.join(OUTPUT_DIR, "fig_step4_cost_breakdown.png"))
@@ -205,21 +245,7 @@ def run_step4_cost_analysis():
     plt.close()
 
     # Plot 3: Cost Distribution Boxplot (Optional but good)
-    # Calculate array of total costs
-    costs_arr = []
-    for i in range(len(results_xE)):
-        # Recalculate cost for each simulation instance
-        xe = results_xE[i]
-        xr = results_xR[i]
-
-        c_elev = xe * (c_E_per_ton + apex_cost_per_ton)
-
-        # Approximate attempts for this instance (using average success rate)
-        # In a real step 5 we'd track actual failures, but here we estimate
-        attempts = (xr / q_payload) / s_R
-        c_rock = attempts * C_L_launch
-
-        costs_arr.append(c_elev + c_rock)
+    # (costs_arr already calculated above for CSV export)
 
     plt.figure(figsize=(8, 6))
     sns.boxplot(y=costs_arr, color='skyblue')
@@ -228,6 +254,7 @@ def run_step4_cost_analysis():
 
     # Format y-axis
     current_values = plt.gca().get_yticks()
+    plt.gca().set_yticks(current_values)  # Fix: Explicitly set ticks
     plt.gca().set_yticklabels(['${:,.1f}B'.format(x/1e9) for x in current_values])
 
     plt.grid(True, alpha=0.3)

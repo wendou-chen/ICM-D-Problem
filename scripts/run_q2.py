@@ -85,7 +85,7 @@ def run_analytic_study():
         })
 
     plots.plot_feasibility_region(
-        ce_range, cr_range, Problem.TOTAL_MASS_TONS, 20.0, sys_points,
+        ce_range, cr_range, Problem.TOTAL_MASS_TONS, 100.0, sys_points,
         os.path.join(FIG_DIR, "feasibility_region.png")
     )
 
@@ -100,10 +100,9 @@ def run_gamma_scan(n_iter=100):
         'r_max': Rocket.R_MAX
     }
     M = Problem.TOTAL_MASS_TONS
-    horizons = [20, 40, 60, 80, 100]
+    # horizons = [100, 120, 140, 160, 180] # No longer needed for prob plot
 
     results_var = []
-    results_prob = []
 
     for preset_name, preset in RELIABILITY_PRESETS.items():
         print(f"  Scanning Gamma for {preset_name}...")
@@ -117,7 +116,7 @@ def run_gamma_scan(n_iter=100):
 
             mean_t = np.mean(times)
             var95, _ = metrics.var_cvar(times, 0.95)
-            
+
             results_var.append({
                 'scenario_level': preset_name,
                 'gamma': gamma,
@@ -125,27 +124,14 @@ def run_gamma_scan(n_iter=100):
                 'VaR_95': var95
             })
 
-            for h in horizons:
-                p_h = metrics.p_on_time(times, float(h))
-                results_prob.append({
-                    'scenario_level': preset_name,
-                    'gamma': gamma,
-                    'horizon': h,
-                    'probability': p_h
-                })
-
     df_var = pd.DataFrame(results_var)
-    df_prob = pd.DataFrame(results_prob)
-    
+
     df_var.to_csv(os.path.join(OUTPUT_DIR, "q2_gamma_scan_var.csv"), index=False)
-    df_prob.to_csv(os.path.join(OUTPUT_DIR, "q2_gamma_scan_prob.csv"), index=False)
-    print("Saved q2_gamma_scan csvs")
+    print("Saved q2_gamma_scan_var.csv")
 
     plots.plot_gamma_scan(
         df_var,
-        df_prob,
-        os.path.join(FIG_DIR, "gamma_scan_var.png"),
-        os.path.join(FIG_DIR, "gamma_scan_prob.png")
+        os.path.join(FIG_DIR, "gamma_scan_var.png")
     )
 
 def run_simulation_study(n_iter=100):

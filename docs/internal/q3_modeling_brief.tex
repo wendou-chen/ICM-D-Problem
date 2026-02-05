@@ -1,0 +1,124 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage[utf8]{inputenc}
+\usepackage{xeCJK}
+\setCJKmainfont{SimSun}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\title{Modeling Interpretation Brief}
+\author{Model Interpreter Agent}
+\date{\today}
+\begin{document}
+\maketitle
+\section*{Q3 水资源补给策略建模内参}
+\par
+\subsection*{1. 变量定义表 (Variable Dictionary)}
+\par
+本模型采用**离散时间库存模拟 (Discrete-Time Inventory Simulation)** 方法，核心变量定义如下：
+\par
+\begin{center}
+\begin{longtable}{lllll}
+\toprule
+数学符号 & 代码变量名 & 物理含义 & 单位 & 备注 \\
+\midrule
+$S_t$ & `inventory` & 第 $t$ 天的水资源库存量 & tons & 核心状态变量 \\
+$D$ & `daily\_demand\_tons` & 每日水资源消耗需求 & tons/day & 刚性需求 \\
+$C_E$ & `daily\_supply\_cap\_elevator\_tons` & 太空电梯每日最大运力 & tons/day & 基础运力 \\
+$K$ & `rocket\_config['K']` & 火箭发射工位数量 & 个 & 应急运力上限约束 \\
+$q$ & `rocket\_config['q']` & 单枚火箭有效载荷 & tons & 离散补给单位 \\
+$L_{safe}$ & `policy.L\_SAFE\_DAYS` & 安全库存天数 & days & 策略参数，用于应对长周期故障 \\
+$B_{buffer}$ & `policy.B\_BUFFER\_DAYS` & 缓冲库存天数 & days & 策略参数，用于平滑波动 \\
+$\lambda$ & `preset.lambda` & 电梯故障率参数 & $1/day$ & 泊松过程参数 \\
+$X_E, X_R$ & `x\_E`, `x\_R` & 当日电梯/火箭实际运输量 & tons & 决策变量 \\
+\bottomrule
+\end{longtable}
+\end{center}
+\par
+\subsection*{2. 建模核心逻辑 (Modeling Logic)}
+\par
+Q3 核心算法是一个基于**双源补给策略 (Dual-Sourcing Policy)** 的仿真模型。系统优先使用低成本的太空电梯（Elevator），在电梯故障或运力不足时启用高成本的火箭（Rocket）作为应急补充。
+\par
+\subsubsection*{2.1 状态转移方程}
+库存系统的基本物理守恒公式：
+\[  S_{t+1} = \max(0, S_t + X_{E,t} + X_{R,t} - D)  \]
+\par
+\subsubsection*{2.2 补给决策逻辑 (Policy A)}
+每日补给目标基于“安全库存+缓冲库存”动态计算：
+1.  **计算需求缺口**：
+\[  \text{Target} = (L_{safe} + B_{buffer}) \times D  \]
+\[  \text{Need}_t = \max(0, \text{Target} - S_t)  \]
+2.  **电梯优先调度**：
+*   若电梯处于“正常 (Up)”状态：$X\_{E,t} = \min(\text{Need}\_t, C\_E)$
+*   若电梯处于“故障 (Down)”状态：$X\_{E,t} = 0$，进入维修倒计时。
+3.  **火箭应急调度**：
+*   剩余需求：$\text{Rem} = \text{Need}\_t - X\_{E,t}$
+*   若 $\text{Rem} > 0$，计算所需发射次数 $N\_{launch} = \lceil \text{Rem} / q \rceil$。
+*   受限于发射工位 $K$ 和发射成功率 $P\_R$，实际火箭运量 $X\_{R,t}$ 为随机变量。
+\par
+\subsubsection*{2.3 风险与故障模型}
+*   **电梯故障**：服从指数分布（故障间隔 MTTF）和修复时间分布（MTTR）。
+*   **火箭故障**：单次发射服从伯努利分布，故障会导致当前工位停运（冷却时间）。
+\par
+\subsection*{3. 图表证据与解读 (Visual Gallery)}
+\par
+以下图表展示了模型在不同参数下的仿真结果，揭示了系统脆弱性与成本权衡。
+\par
+\subsubsection*{3.1 供需基准分析}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{outputs/q3/step1/fig2_capacity_vs_demand.png}
+\caption{图3.1：运力与需求的关系}
+\end{figure}
+> **解读**：此图展示了太空电梯的基础运力上限与不同需求场景的对比。这是可行性分析的第一步，确认了仅靠电梯在正常运行时是否足以覆盖日常需求。若需求线高于运力线，系统将必然崩溃。
+\par
+\subsubsection*{3.2 动态库存轨迹 (Trace Analysis)}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{outputs/q3/step3/trace_L30.png}
+\caption{图3.2：30天安全库存策略下的单次模拟轨迹}
+\end{figure}
+> **解读**：
+> *   **蓝色实线**：实际库存量 $S\_t$。可以看到明显的“锯齿状”波动，这是补给到达和日常消耗交替的结果。
+> *   **红色虚线**：安全警戒线（零库存）。
+> *   **大幅下挫**：图中库存的深度下跌通常对应“电梯故障”事件。
+> *   **快速回升**：故障修复后或火箭应急介入带来的库存回补。
+> *   此图直观证明了 $L\_{safe}=30$ 的必要性——即使有储备，在长周期故障下库存仍可能逼近危险边缘。
+\par
+\subsubsection*{3.3 风险包络分析 (Spaghetti Plot)}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{outputs/q3/step5/fig_spaghetti_L30.png}
+\caption{图3.3：蒙特卡洛模拟库存风险包络}
+\end{figure}
+> **解读**：
+> *   展示了 100 次独立模拟的库存轨迹叠加。
+> *   **彩色线条**：每一根代表一个可能的未来（不同的故障随机序列）。
+> *   **意义**：虽然平均库存（趋势中心）看起来安全，但个别极端路径（底部的线条）显示了“黑天鹅”事件（连续故障）可能导致缺水（Stockout）。这证明了单一的均值分析是不够的，必须基于尾部风险（Tail Risk）设计缓冲。
+\par
+\subsubsection*{3.4 成本结构分解}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{outputs/q3/step4/fig_step4_cost_breakdown.png}
+\caption{图3.4：不同策略下的成本构成}
+\end{figure}
+> **解读**：
+> *   图表展示了总成本中“电梯运输成本”（通常较低且固定）与“火箭应急成本”（高昂且波动）的比例。
+> *   随着安全库存策略的变化，虽然持有库存的成本（若有）增加，但“缺水惩罚”和“紧急火箭发射”的频率可能降低。
+> *   该图用于寻找最具成本效益的混合运输比例。
+\par
+\subsubsection*{3.5 帕累托前沿：成本 vs 风险}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{outputs/q3/step5/fig_pareto_cost_L30.png}
+\caption{图3.5：成本与缺水天数的权衡}
+\end{figure}
+> **解读**：
+> *   **X轴**：总成本（包含运输与惩罚）。
+> *   **Y轴**：缺水风险（Stockout Days）。
+> *   **散点**：代表不同参数组合（如 $L\_{safe}$ 设置）下的模拟结果。
+> *   **结论**：图中呈现明显的 L 型帕累托前沿。存在一个“拐点”，超过该点后，继续增加投入（成本）对降低风险的边际收益递减。该图直接指导了最终方案的选择（推荐选择拐点附近的策略）。
+\par
+\end{document}

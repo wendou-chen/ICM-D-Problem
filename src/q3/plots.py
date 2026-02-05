@@ -3,12 +3,14 @@ import seaborn as sns
 import os
 import pandas as pd
 from typing import Any
+from src.utils.plot_style import apply_style
 
 def plot_demand_sensitivity(df: pd.DataFrame, output_path: str):
     """
     Plot Annual Water Transport Demand vs Recycling Rate.
     df columns: recycling_rate, annual_tons
     """
+    apply_style()
     plt.figure(figsize=(10, 6))
     # Create the line plot
     sns.lineplot(data=df, x='recycling_rate', y='annual_tons', marker='o', linewidth=2.5, label='Annual Demand')
@@ -31,6 +33,7 @@ def plot_capacity_vs_demand(df: pd.DataFrame, elevator_capacity_ton_year: float,
     Plot Annual Demand vs Elevator Capacity Limit.
     df columns: recycling_rate, annual_tons
     """
+    apply_style()
     plt.figure(figsize=(10, 6))
     
     # Bar plot for demand
@@ -55,6 +58,7 @@ def plot_reliability_curve(df: pd.DataFrame, output_path: str):
     Plot Probability of No Stockout vs Initial Inventory Buffer.
     df columns: buffer_months, p_success
     """
+    apply_style()
     plt.figure(figsize=(10, 6))
     sns.barplot(data=df, x='buffer_months', y='p_success', palette='viridis')
     
@@ -77,6 +81,7 @@ def plot_inventory_traces(traces: list, output_path: str):
     Plot random inventory trajectories.
     traces: list of lists (daily inventory levels)
     """
+    apply_style()
     plt.figure(figsize=(12, 6))
     for i, trace in enumerate(traces):
         plt.plot(trace, alpha=0.7, label=f'Sim {i+1}')

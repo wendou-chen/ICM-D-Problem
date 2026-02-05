@@ -11,6 +11,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from configs.constants import WaterDemand, WaterPolicy, ReliabilityPreset, RELIABILITY_PRESETS
 from src.q3 import simulation
+from src.utils.plot_style import apply_style
 
 # Load config
 def load_config(path="configs/risk_params.yaml"):
@@ -109,6 +110,7 @@ class RiskSimulatorWrapper:
 
 def main():
     print("Running Step 5: Risk Assessment...")
+    apply_style()
     config = load_config()
     OUTPUT_DIR = "outputs/q3/step5"
     os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -165,7 +167,22 @@ def main():
             np.save(os.path.join(OUTPUT_DIR, "spaghetti_L30.npy"), trajectories)
             # Save Cost Components
             pd.DataFrame(components_list).to_csv(os.path.join(OUTPUT_DIR, "cost_components_L30.csv"), index=False)
-            
+
+            # Save Plot Source Data (User Request)
+            # 1. Spaghetti Data (CSV format for easier plotting elsewhere)
+            # Transpose so columns are simulations, rows are days
+            df_spaghetti = pd.DataFrame(trajectories).T
+            df_spaghetti.columns = [f'Sim_{i}' for i in range(len(trajectories))]
+            df_spaghetti.to_csv(os.path.join(OUTPUT_DIR, "plot_data_spaghetti_L30.csv"), index_label="Day")
+
+            # 2. Pareto Cost Data (Mean of components)
+            # We already have cost_components_L30.csv, which IS the source data for distribution analysis.
+            # But let's also save the summarized means for the Pareto bar chart specifically.
+            df_comp = pd.DataFrame(components_list)
+            df_pareto = df_comp.mean().sort_values(ascending=False).reset_index()
+            df_pareto.columns = ['Component', 'Mean_Cost_USD']
+            df_pareto.to_csv(os.path.join(OUTPUT_DIR, "plot_data_pareto_cost_L30.csv"), index=False)
+
     # Output Summary
     df = pd.DataFrame(summary)
     csv_path = os.path.join(OUTPUT_DIR, "risk_summary.csv")

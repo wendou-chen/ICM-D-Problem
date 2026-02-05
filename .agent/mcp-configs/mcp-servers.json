@@ -1,5 +1,15 @@
 {
   "mcpServers": {
+    "drawio": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "drawio-mcp-server",
+        "--extension-port",
+        "8080"
+      ],
+      "description": "Draw.io diagram generation"
+    },
     "firecrawl": {
       "command": "npx",
       "args": [
@@ -80,6 +90,17 @@
         "@context7/mcp-server"
       ],
       "description": "Live documentation lookup"
+    },
+    "figma": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-figma"
+      ],
+      "env": {
+        "FIGMA_ACCESS_TOKEN": "figd_S-zhLvM8j5exOVtzHw4Jx8zXxB8JOQIhlTKu1h6G"
+      },
+      "description": "Figma design access"
     },
     "filesystem": {
       "command": "npx",

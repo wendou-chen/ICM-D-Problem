@@ -18,3 +18,4 @@ data/raw/
 # 建议忽略一些较大的二进制文件或运行产物
 .env.*
 !.env.example
+ai-watermark/
