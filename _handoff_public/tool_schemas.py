@@ -1,0 +1,359 @@
+"""
+工具 Schema 定义：生成 DeepSeek tool-calls 所需的工具定义 JSON。
+"""
+
+import json
+from pathlib import Path
+from typing import List
+
+
+def get_tools(include_test: bool = False) -> List[dict]:
+    """
+    返回 OpenAI tools 格式的工具定义列表。
+    
+    Args:
+        include_test: 是否包含测试工具（ping）
+    
+    Returns:
+        工具定义列表
+    """
+    tools = [
+        {
+            "type": "function",
+            "function": {
+                "name": "run_etl",
+                "description": "运行 ETL 数据清洗，从原始数据生成清洗后的 CSV 文件",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "raw_dir": {
+                            "type": "string",
+                            "description": "原始数据目录路径",
+                            "default": "data/raw"
+                        },
+                        "out_dir": {
+                            "type": "string",
+                            "description": "输出目录路径",
+                            "default": "data/processed"
+                        },
+                        "strict": {
+                            "type": "boolean",
+                            "description": "严格模式（当前未实现）",
+                            "default": True
+                        },
+                        "random_seed": {
+                            "type": "integer",
+                            "description": "随机种子",
+                            "default": 42
+                        }
+                    },
+                    "required": []
+                }
+            }
+        },
+        {
+            "type": "function",
+            "function": {
+                "name": "build_graph",
+                "description": "构建交通网络图并保存为 graph.pkl",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "processed_dir": {
+                            "type": "string",
+                            "description": "处理后数据目录",
+                            "default": "data/processed"
+                        },
+                        "graph_out": {
+                            "type": "string",
+                            "description": "图输出路径",
+                            "default": "data/processed/graph.pkl"
+                        },
+                        "export": {
+                            "type": "string",
+                            "description": "导出选项（可选）",
+                            "default": None
+                        }
+                    },
+                    "required": []
+                }
+            }
+        },
+        {
+            "type": "function",
+            "function": {
+                "name": "run_baseline",
+                "description": "运行基线分析，计算网络可达性和中心性指标",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "graph_pkl": {
+                            "type": "string",
+                            "description": "图文件路径",
+                            "default": "data/processed/graph.pkl"
+                        },
+                        "od_samples": {
+                            "type": "integer",
+                            "description": "OD 样本数量",
+                            "default": 5000
+                        },
+                        "metrics": {
+                            "type": "string",
+                            "description": "指标选项（可选）",
+                            "default": None
+                        },
+                        "out_dir": {
+                            "type": "string",
+                            "description": "输出目录",
+                            "default": "outputs/baseline"
+                        }
+                    },
+                    "required": []
+                }
+            }
+        },
+        {
+            "type": "function",
+            "function": {
+                "name": "run_task2",
+                "description": "运行 Task2 公交路线优化（Hybrid PSO-GA）",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "config_path": {
+                            "type": "string",
+                            "description": "配置文件路径（可选）",
+                            "default": None
+                        },
+                        "random_seed": {
+                            "type": "integer",
+                            "description": "随机种子",
+                            "default": 42
+                        },
+                        "out_dir": {
+                            "type": "string",
+                            "description": "输出目录",
+                            "default": "outputs/task2"
+                        },
+                        "mode": {
+                            "type": "string",
+                            "description": "运行模式（fast/normal）",
+                            "default": "fast"
+                        }
+                    },
+                    "required": []
+                }
+            }
+        },
+        {
+            "type": "function",
+            "function": {
+                "name": "run_task2_ablation",
+                "description": "运行 Task2 消融与超参扫描（PSO/GA/Hybrid Grid）",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "mode": {
+                            "type": "string",
+                            "description": "运行模式（all/pso_only/ga_only/hybrid）",
+                            "default": "all"
+                        },
+                        "seed_base": {
+                            "type": "integer",
+                            "description": "随机种子基准",
+                            "default": 42
+                        },
+                        "n_repeats": {
+                            "type": "integer",
+                            "description": "重复次数",
+                            "default": 5
+                        },
+                        "out_dir": {
+                            "type": "string",
+                            "description": "输出目录",
+                            "default": "outputs/task2"
+                        },
+                        "dry_run": {
+                            "type": "boolean",
+                            "description": "只跑最小组合",
+                            "default": False
+                        },
+                        "max_runs": {
+                            "type": "integer",
+                            "description": "限制最多运行组合数",
+                            "default": None
+                        },
+                        "sample_runs": {
+                            "type": "integer",
+                            "description": "随机采样 N 组",
+                            "default": None
+                        },
+                        "force": {
+                            "type": "boolean",
+                            "description": "强制重跑",
+                            "default": False
+                        }
+                    },
+                    "required": []
+                }
+            }
+        },
+        {
+            "type": "function",
+            "function": {
+                "name": "analyze_task2_ablation",
+                "description": "分析 Task2 消融结果并生成对比表与可视化",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "in_csv": {
+                            "type": "string",
+                            "description": "ablation_results.csv 路径",
+                            "default": "outputs/task2/ablation_results.csv"
+                        },
+                        "out_dir": {
+                            "type": "string",
+                            "description": "输出目录",
+                            "default": "outputs/task2"
+                        },
+                        "feasible_only": {
+                            "type": "boolean",
+                            "description": "仅保留可行解(violation=0)",
+                            "default": False
+                        },
+                        "topk": {
+                            "type": "integer",
+                            "description": "Top-K 配置数量",
+                            "default": 5
+                        }
+                    },
+                    "required": []
+                }
+            }
+        },
+        {
+            "type": "function",
+            "function": {
+                "name": "sensitivity",
+                "description": "运行敏感性分析，测试参数变化对结果的影响",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "base_run_dir": {
+                            "type": "string",
+                            "description": "基础运行目录"
+                        },
+                        "delta": {
+                            "type": "number",
+                            "description": "变化量",
+                            "default": 0.1
+                        },
+                        "trials": {
+                            "type": "integer",
+                            "description": "试验次数",
+                            "default": 20
+                        },
+                        "what": {
+                            "type": "string",
+                            "description": "分析对象（可选）",
+                            "default": None
+                        },
+                        "out_dir": {
+                            "type": "string",
+                            "description": "输出目录",
+                            "default": "outputs/robustness/sensitivity"
+                        }
+                    },
+                    "required": ["base_run_dir"]
+                }
+            }
+        },
+        {
+            "type": "function",
+            "function": {
+                "name": "attack_nodes",
+                "description": "运行节点攻击分析，测试网络鲁棒性",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "graph_pkl": {
+                            "type": "string",
+                            "description": "图文件路径"
+                        },
+                        "k_list": {
+                            "type": "array",
+                            "items": {"type": "integer"},
+                            "description": "攻击节点数量列表",
+                            "default": None
+                        },
+                        "centrality": {
+                            "type": "string",
+                            "description": "中心性指标",
+                            "default": "betweenness"
+                        },
+                        "recompute_metric": {
+                            "type": "string",
+                            "description": "重新计算的指标",
+                            "default": "giant_component"
+                        },
+                        "out_dir": {
+                            "type": "string",
+                            "description": "输出目录",
+                            "default": "outputs/robustness/attack_nodes"
+                        }
+                    },
+                    "required": ["graph_pkl"]
+                }
+            }
+        },
+    ]
+    
+    # 添加测试工具
+    if include_test:
+        tools.append({
+            "type": "function",
+            "function": {
+                "name": "ping",
+                "description": "轻量 ping 工具，用于自检 tool-loop",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "message": {
+                            "type": "string",
+                            "description": "回显消息",
+                            "default": "ping"
+                        }
+                    },
+                    "required": []
+                }
+            }
+        })
+    
+    return tools
+
+
+def write_tools_json(path: str, include_test: bool = False) -> None:
+    """
+    将工具定义写入 JSON 文件。
+    
+    Args:
+        path: 输出文件路径
+        include_test: 是否包含测试工具
+    """
+    tools = get_tools(include_test=include_test)
+    
+    json_path = Path(path)
+    json_path.parent.mkdir(parents=True, exist_ok=True)
+    
+    with open(json_path, 'w', encoding='utf-8') as f:
+        json.dump(tools, f, indent=2, ensure_ascii=False)
+
+
+if __name__ == "__main__":
+    # 生成生产版本（不含 ping）
+    write_tools_json("tools.json", include_test=False)
+    print("Generated: tools.json")
+    
+    # 生成测试版本（含 ping）
+    write_tools_json("tools_test.json", include_test=True)
+    print("Generated: tools_test.json")

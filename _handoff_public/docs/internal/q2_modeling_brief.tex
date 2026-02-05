@@ -1,0 +1,119 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage[utf8]{inputenc}
+\usepackage{xeCJK}
+\setCJKmainfont{SimSun}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\title{Modeling Interpretation Brief}
+\author{Model Interpreter Agent}
+\date{\today}
+\begin{document}
+\maketitle
+\section*{Q2 建模内参 (Modeling Brief)}
+\par
+\subsection*{1. 变量与参数字典}
+\par
+\begin{center}
+\begin{longtable}{lllll}
+\toprule
+符号 & 代码变量 & 物理含义 & 单位/范围 & 典型值 \\
+\midrule
+$A_E$ & `A\_E` & 太空电梯可用率 (Availability) & $[0, 1]$ & 0.90 (Moderate) \\
+$P_R$ & `P\_R` & 火箭单次发射故障概率 & $[0, 1]$ & 0.05 \\
+$\tau$ & `TAU\_RESET\_DAYS` & 火箭发射塔故障后的重置时间 & 天 (Days) & 7 \\
+$\alpha$ & `alpha` & 太空电梯承担的运输量比例 & $[0, 1]$ & 动态计算 \\
+$\gamma$ & `gamma` & 动态备份策略下的发射倍增因子 & $\ge 1.0$ & 2.0 \\
+$VaR_{95}$ & `percentile\_95` & 95\% 置信度下的完工时间（最大风险） & 年 (Years) & - \\
+$f_{eff}$ & `rocket\_f\_eff` & 火箭系统考虑故障后的有效效能系数 & $[0, 1]$ & < 1.0 \\
+\bottomrule
+\end{longtable}
+\end{center}
+\par
+\subsection*{2. 核心建模逻辑}
+\par
+\subsubsection*{2.1 解析解：有效运力与效能衰减}
+我们定义系统的**有效年运力 (Effective Capacity)** 为考虑故障后的期望产出。
+\par
+*   **太空电梯**：模型采用简单的线性折减。
+\[  C_E^{eff} = C_E^{nominal} \times A_E  \]
+\par
+*   **火箭系统**：模型较为复杂，考虑了每日连射 ($r$) 与故障重置 ($\tau$) 的马尔可夫过程。根据 `analytics.py` 中的 `rocket\_f\_eff` 函数，其效能系数为：
+\[  f_{eff} = \frac{E[S]}{E[L]} = \frac{\sum_{i=1}^r s^i}{1 + \tau(1-s^r)}  \]
+其中 $s = 1 - P\_R$ (单次成功率)。该公式精确量化了故障带来的非线性运力损耗。
+\par
+*   **Alpha Drift (配比漂移)**：
+设计时的名义配比 $\alpha\_{nom}$ 往往假设完美运行。但在高故障率下，由于火箭和电梯的可靠性非对称，实际贡献配比 $\alpha\_{real}$ 会发生偏离（Drift）。我们的模型能够计算这种漂移量，从而指导冗余设计。
+\par
+\subsubsection*{2.2 蒙特卡洛仿真：故障模式差异}
+为了捕捉**尾部风险 (Tail Risk)**，`simulator.py` 实现了两种截然不同的故障机制：
+\par
+1.  **Burst Failure (电梯)**：
+*   **特征**：低频、高损、长尾。
+*   **代码逻辑**：`downtime = ceil(exponential(MTTR))`。
+*   **物理意义**：电梯一旦断缆或遭遇碎片撞击，维修需要数周时间，导致运力出现长时间的“真空期”。
+\par
+2.  **Independent Failure (火箭)**：
+*   **特征**：高频、低损、独立。
+*   **代码逻辑**：$K$ 个发射塔状态独立 (`pad\_down\_days[k]`)。
+*   **物理意义**：一个发射台爆炸不会影响其他发射台，系统具有极高的鲁棒性。
+\par
+\subsubsection*{2.3 动态备份策略 (Dynamic Surge)}
+为了应对电梯的 Burst Failure，我们提出了动态备份逻辑：
+\par
+*   **触发条件**：当电梯处于停机状态 (`elevator\_down\_days > 0`)。
+*   **响应动作**：火箭发射频率从基础值 $r\_{base}$ 提升至 $r\_{surge}$。
+\[  r_{surge} = \min(r_{max}, \gamma \times r_{base})  \]
+*   **作用**：利用火箭的高频次灵活性，在电梯维修期间“抢运”物资，平滑总运力曲线，从而截断完工时间的右尾风险。
+\par
+\subsection*{3. 可视化图表集总 (Visual Gallery)}
+\par
+\subsubsection*{图 3.1：系统可行性热力图}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{outputs/q2/figs/feasibility_region.png}
+\caption{可行性边界}
+\end{figure}
+> **解读**：
+> *   **坐标**：X轴为火箭故障率 $P\_R$，Y轴为电梯可用率 $A\_E$。
+> *   **色阶**：颜色越深代表完工时间越短，黄色代表超时（不可行）。
+> *   **结论**：右上角（高 $A\_E$，低 $P\_R$）是安全区。但在“Severe”场景下（左下角），即使电梯修复也难以单独完成任务，必须引入 $K > 20$ 的大规模火箭群作为保底。
+\par
+\subsubsection*{图 3.2：Alpha Drift 现象}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{outputs/q2/figs/alpha_drift.png}
+\caption{配比漂移}
+\end{figure}
+> **解读**：
+> *   **对比**：虚线为名义设计配比，实线为仿真后的实际贡献配比。
+> *   **趋势**：随着环境恶化（横轴向右），实际 $\alpha$ 值显著低于名义值。
+> *   **含义**：这证明了简单加法模型会高估系统能力。在规划时，必须预留约 10\%-15\% 的额外 Buffer 来抵消这种漂移。
+\par
+\subsubsection*{图 3.3：完工时间分布与风险管控 (关键证据)}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{outputs/q2/figs/boxplot_time.png}
+\caption{时间箱线图}
+\end{figure}
+> **解读**：
+> *   **箱体 (Box)**：代表 50\% 的概率分布区间。
+> *   **胡须 (Whiskers)**：代表 95\% 的置信区间。
+> *   **离群点 (Fliers)**：代表极端的“黑天鹅”事件（如电梯连续长期故障）。
+> *   **结论**：Baseline（蓝色）的箱体很宽且离群点多，说明不确定性极大。引入 Dynamic Surge（橙/绿）后，**箱体被显著压缩**，且长尾离群点基本消失。这有力证明了动态策略在控制风险上的核心作用。
+\par
+\subsubsection*{图 3.4：Gamma 敏感度分析}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{outputs/q2/figs/gamma_scan_var.png}
+\caption{Gamma 扫描}
+\end{figure}
+> **解读**：
+> *   **曲线**：不同环境配置下的 VaR (95\% 风险价值) 随 $\gamma$ 的变化。
+> *   **拐点**：当 $\gamma$ 从 1.0 提升到 2.0 时，风险下降最快（曲线最陡）。超过 2.5 后，曲线趋于平缓（边际收益递减）。
+> *   **建议**：选取 $\gamma=2.0$ 作为性价比最优的备份倍率，既能覆盖大部分风险，又不会造成过大的后勤压力。
+\par
+\end{document}

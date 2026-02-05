@@ -1,0 +1,32 @@
+
+\subsection{Data Processing}
+The raw data was processed to clean and standardize the transportation network information. 
+Key steps included coordinate validation, deduplication, and schema normalization.
+Post-cleaning metrics:
+\begin{itemize}
+    \item Nodes: Unknown
+    \item Edges: Unknown
+\end{itemize}
+
+\subsection{Network Construction}
+The multi-modal transport network is modeled as a directed graph $G=(V,E)$, where $V$ represents intersections and bus stops, and $E$ represents road segments and transfer links.
+Edge weights $w_e$ denote travel time in minutes. The graph construction involved:
+\begin{enumerate}
+    \item Driving Layer: Road segments with speed limits based on highway types.
+    \item Transit Layer: Bus stops and routes connected to the driving layer via transfer edges.
+\end{enumerate}
+Detailed cost functions were applied to ensure realistic routing behavior.
+
+\subsection{Baseline Diagnostics}
+Baseline performance was evaluated using $K=100$ randomly sampled OD pairs.
+Connectivity and centrality metrics were computed to establish reference performance levels.
+Refer to artifacts for detailed distributions.
+
+\subsection{Optimization Model}
+We formulate the bus route optimization problem as:
+\begin{equation}
+    \min f(x) \quad \text{s.t. } x \in X
+\end{equation}
+where $x$ represents the selection of candidate bus routes.
+The objective function includes travel time costs, penalty costs for unreachable pairs, and operational budgets.
+A hybrid PSO-GA algorithm was employed to solve this combinatorial optimization problem.

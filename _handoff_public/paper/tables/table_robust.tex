@@ -1,0 +1,13 @@
+\begin{table}[htbp]
+\centering
+\begin{tabular}{lccccccc}
+\toprule
+scenario & metric_name & baseline_value & perturbed_value & delta_pct & mc_runs & stderr & note \\
+\midrule
+demand_sigma=0.1, cap=[0.9,1.0] & mean_max_util & 0.7146 & 0.8003 & 11.9843 & 500 & 0.0030 & mode=minmax \\
+demand_sigma=0.1, cap=[0.9,1.0] & mean_thr_scaled & 1.0000 & 0.9998 & -0.0164 & 500 & 0.0001 & mode=minmax \\
+\bottomrule
+\end{tabular}
+\caption{Sensitivity/robustness results under parameter perturbations (e.g., $\pm 10\%$) or attack scenarios.}
+\label{tab:robust}
+\end{table}

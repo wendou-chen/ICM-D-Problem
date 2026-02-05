@@ -1,0 +1,178 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.3.0 Chrome/140.0.7339.249 Electron/38.7.2 Safari/537.36" version="29.3.0">
+  <diagram name="第 1 页" id="xk8rD9KrLWWiwyhC-iqv">
+    <mxGraphModel dx="1213" dy="722" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="MainTheme1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#23445d;fontColor=#ffffff;strokeColor=#102b3f;fontStyle=1;fontSize=16;" value="2050 Lunar Logistics&#xa;(Antigravity)" vertex="1">
+          <mxGeometry height="60" width="220" x="40" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="MainTheme2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#000000;fontColor=#ffffff;strokeColor=#000000;fontStyle=1;fontSize=16;" value="Integrated Modeling&#xa;System" vertex="1">
+          <mxGeometry height="60" width="220" x="40" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="0qE4hol9qHhCMWKxRKpv-2" edge="1" parent="1" source="ContextBox" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="MainTheme1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0qE4hol9qHhCMWKxRKpv-4" edge="1" parent="1" source="ContextBox" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="MainTheme2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ContextBox" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#666666;strokeWidth=1;dashed=1;align=center;verticalAlign=middle;fontSize=11;fontColor=#333333;" value="Key Parameters:&#xa;M_total = 100M tons&#xa;Start Year = 2050&#xa;Learning Rate = 5%/5yrs&#xa;Safety Threshold = 1000/yr" vertex="1">
+          <mxGeometry height="280" width="170" x="65" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="Q1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#8faadc;fontColor=#000000;strokeColor=#6c8ebf;fontStyle=1;fontSize=14;" value="Q1: Infrastructure&#xa;(Selection)" vertex="1">
+          <mxGeometry height="50" width="160" x="360" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Q1Note" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#999999;dashed=1;fontSize=10;" value="Trade-off: Fixed Cost&#xa;vs. Marginal Cost" vertex="1">
+          <mxGeometry height="40" width="160" x="360" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="Q2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dadae3;fontColor=#000000;strokeColor=#b0b0b0;fontStyle=1;fontSize=14;" value="Q2: Reliability&#xa;(Resilience)" vertex="1">
+          <mxGeometry height="50" width="160" x="360" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="Q2Note" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#999999;dashed=1;fontSize=10;" value="Discrete Event Simulation&#xa;(DES) Approach" vertex="1">
+          <mxGeometry height="40" width="160" x="360" y="255" as="geometry" />
+        </mxCell>
+        <mxCell id="Q3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#666666;fontColor=#ffffff;strokeColor=#333333;fontStyle=1;fontSize=14;" value="Q3: Supply Chain&#xa;(Water Mgmt)" vertex="1">
+          <mxGeometry height="50" width="160" x="360" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="Q3Note" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#999999;dashed=1;fontSize=10;" value="Dual-Sourcing Strategy&#xa;to ensure N_safe" vertex="1">
+          <mxGeometry height="40" width="160" x="360" y="495" as="geometry" />
+        </mxCell>
+        <mxCell id="Q4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#cccccc;fontColor=#000000;strokeColor=#999999;fontStyle=1;fontSize=14;" value="Q4: Environment&#xa;(Impact Assessment)" vertex="1">
+          <mxGeometry height="50" width="160" x="360" y="660" as="geometry" />
+        </mxCell>
+        <mxCell id="Q4Note" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#999999;dashed=1;fontSize=10;" value="The Leaky Bucket Model&#xa;(EDI Index)" vertex="1">
+          <mxGeometry height="40" width="160" x="360" y="715" as="geometry" />
+        </mxCell>
+        <mxCell id="link1" edge="1" parent="1" source="MainTheme1" style="endArrow=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="Q1" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry" />
+        </mxCell>
+        <mxCell id="link2" edge="1" parent="1" source="MainTheme1" style="endArrow=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="Q2" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry" />
+        </mxCell>
+        <mxCell id="link3" edge="1" parent="1" source="MainTheme2" style="endArrow=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="Q3" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry" />
+        </mxCell>
+        <mxCell id="link4" edge="1" parent="1" source="MainTheme2" style="endArrow=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="Q4" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry" />
+        </mxCell>
+        <mxCell id="Q1_D1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7ea6e0;fontColor=#ffffff;strokeColor=#6c8ebf;fontStyle=1;" value="Rocket Mode" vertex="1">
+          <mxGeometry height="40" width="140" x="600" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Q1_D1_Sub" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;dashed=1;" value="Learning Curve (α)" vertex="1">
+          <mxGeometry height="30" width="110" x="760" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="Q1_D2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#6c8ebf;fontColor=#ffffff;strokeColor=#6c8ebf;fontStyle=1;" value="Space Elevator" vertex="1">
+          <mxGeometry height="40" width="140" x="600" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="Q1_D2_Sub" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;dashed=1;" value="Break-even Point" vertex="1">
+          <mxGeometry height="30" width="110" x="760" y="85" as="geometry" />
+        </mxCell>
+        <mxCell id="cQ1_1" edge="1" parent="1" source="Q1" style="endArrow=classic;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="Q1_D1" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry" />
+        </mxCell>
+        <mxCell id="cQ1_2" edge="1" parent="1" source="Q1" style="endArrow=classic;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="Q1_D2" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry" />
+        </mxCell>
+        <mxCell id="cQ1_sub1" edge="1" parent="1" source="Q1_D1" style="endArrow=none;dashed=1;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="Q1_D1_Sub" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cQ1_sub2" edge="1" parent="1" source="Q1_D2" style="endArrow=none;dashed=1;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="Q1_D2_Sub" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Q2_D1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;fontColor=#000000;strokeColor=#82b366;" value="Rocket Faults" vertex="1">
+          <mxGeometry height="40" width="140" x="600" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="Q2_D1_Sub" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;dashed=1;" value="Binomial Dist." vertex="1">
+          <mxGeometry height="30" width="110" x="760" y="185" as="geometry" />
+        </mxCell>
+        <mxCell id="Q2_D2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;fontColor=#000000;strokeColor=#82b366;" value="Elevator Faults" vertex="1">
+          <mxGeometry height="40" width="140" x="600" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="Q2_D2_Sub" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;dashed=1;" value="Poisson / MTTR" vertex="1">
+          <mxGeometry height="30" width="110" x="760" y="245" as="geometry" />
+        </mxCell>
+        <mxCell id="cQ2_1" edge="1" parent="1" source="Q2" style="endArrow=classic;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="Q2_D1" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry" />
+        </mxCell>
+        <mxCell id="cQ2_2" edge="1" parent="1" source="Q2" style="endArrow=classic;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="Q2_D2" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry" />
+        </mxCell>
+        <mxCell id="cQ2_sub1" edge="1" parent="1" source="Q2_D1" style="endArrow=none;dashed=1;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="Q2_D1_Sub" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cQ2_sub2" edge="1" parent="1" source="Q2_D2" style="endArrow=none;dashed=1;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="Q2_D2_Sub" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Q3_D1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#666666;fontColor=#ffffff;strokeColor=#333333;" value="Base: Elevator" vertex="1">
+          <mxGeometry height="35" width="140" x="600" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="Q3_D2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#666666;fontColor=#ffffff;strokeColor=#333333;" value="Surge: Rocket" vertex="1">
+          <mxGeometry height="35" width="140" x="600" y="405" as="geometry" />
+        </mxCell>
+        <mxCell id="Q3_D3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#666666;fontColor=#ffffff;strokeColor=#333333;" value="Inventory (s, S)" vertex="1">
+          <mxGeometry height="35" width="140" x="600" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="Q3_D4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#666666;fontColor=#ffffff;strokeColor=#333333;" value="Buffer: 30 days" vertex="1">
+          <mxGeometry height="35" width="140" x="600" y="495" as="geometry" />
+        </mxCell>
+        <mxCell id="Q3_D5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#666666;fontColor=#ffffff;strokeColor=#333333;" value="Risk &lt; 5%" vertex="1">
+          <mxGeometry height="35" width="140" x="600" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="cQ3_1" edge="1" parent="1" source="Q3" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="Q3_D1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cQ3_2" edge="1" parent="1" source="Q3" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="Q3_D2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cQ3_3" edge="1" parent="1" source="Q3" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="Q3_D3" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cQ3_4" edge="1" parent="1" source="Q3" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="Q3_D4" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cQ3_5" edge="1" parent="1" source="Q3" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="Q3_D5" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Q3_Sub" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#666666;dashed=1;" value="Dual-Sourcing" vertex="1">
+          <mxGeometry height="30" width="110" x="760" y="452" as="geometry" />
+        </mxCell>
+        <mxCell id="cQ3_sub1" edge="1" parent="1" source="Q3_D3" style="endArrow=none;dashed=1;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="Q3_Sub" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Q4_D1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;fontColor=#000000;strokeColor=#9673a6;" value="GHG (CO2)" vertex="1">
+          <mxGeometry height="35" width="140" x="600" y="620" as="geometry" />
+        </mxCell>
+        <mxCell id="Q4_D2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;fontColor=#000000;strokeColor=#9673a6;" value="Soot (Black Carbon)" vertex="1">
+          <mxGeometry height="35" width="140" x="600" y="665" as="geometry" />
+        </mxCell>
+        <mxCell id="Q4_D3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;fontColor=#000000;strokeColor=#9673a6;" value="Ozone Depletion" vertex="1">
+          <mxGeometry height="35" width="140" x="600" y="710" as="geometry" />
+        </mxCell>
+        <mxCell id="Q4_D4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;fontColor=#000000;strokeColor=#9673a6;" value="Accumulation (S_t)" vertex="1">
+          <mxGeometry height="35" width="140" x="600" y="755" as="geometry" />
+        </mxCell>
+        <mxCell id="Q4_Sub" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#9673a6;dashed=1;fontSize=10;" value="Environmental Damage&#xa;Index (EDI)" vertex="1">
+          <mxGeometry height="30" width="130" x="760" y="667" as="geometry" />
+        </mxCell>
+        <mxCell id="cQ4_1" edge="1" parent="1" source="Q4" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="Q4_D1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cQ4_2" edge="1" parent="1" source="Q4" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="Q4_D2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cQ4_3" edge="1" parent="1" source="Q4" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="Q4_D3" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cQ4_4" edge="1" parent="1" source="Q4" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="Q4_D4" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="bracketQ4" parent="1" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;flipH=1;labelPosition=right;verticalLabelPosition=middle;align=left;verticalAlign=middle;size=0.5;" value="" vertex="1">
+          <mxGeometry height="110" width="20" x="745" y="630" as="geometry" />
+        </mxCell>
+        <mxCell id="linkQ4Sub" edge="1" parent="1" source="bracketQ4" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="Q4_Sub" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

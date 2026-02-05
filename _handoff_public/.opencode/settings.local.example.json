@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(python:*)",
+      "Bash(pip install:*)",
+      "Bash(read_file:*)",
+      "Bash(cat:*)",
+      "Bash(pip uninstall:*)",
+      "Bash(pip cache:*)",
+      "Bash(Edit:*)",
+      "Bash(read:*)",
+      "Bash(gh auth status:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(export:*)",
+      "Bash(xelatex:*)",
+      "Bash(grep:*)",
+      "Bash(ls:*)",
+      "Bash(dir:*)",
+      "Bash(pandoc:*)",
+      "Bash(npx:*)",
+      "Bash(py:*)",
+      "Bash(pdflatex:*)"
+    ],
+    "additionalDirectories": [
+      "./scripts"
+    ]
+  }
+}

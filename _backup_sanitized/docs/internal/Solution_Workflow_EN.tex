@@ -1,0 +1,108 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage[utf8]{inputenc}
+\usepackage{xeCJK}
+\setCJKmainfont{SimSun}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\title{Modeling Interpretation Brief}
+\author{Model Interpreter Agent}
+\date{\today}
+\begin{document}
+\maketitle
+\section*{2050 Lunar Logistics Network: Modeling Brief}
+\par
+**Date:** 2026-02-02
+**Author:** AI Modeling Team (Antigravity)
+\par
+\subsection*{1. Variable & Parameter Dictionary}
+Key parameters defined in `configs/constants.py` and `configs/env\_constants.py`.
+\par
+\begin{center}
+\begin{longtable}{lllll}
+\toprule
+Symbol & Code Variable & Description & Default Value & Unit \\
+\midrule
+$M_{total}$ & `TOTAL\_MASS\_TONS` & Total cargo demand to Moon & 100,000,000 & tons \\
+$T_{start}$ & `START\_YEAR` & Project start year & 2050 & year \\
+$C(y)$ & `rocket\_cost\_per\_launch` & Rocket launch cost at year $y$ & Dynamic & USD \\
+$\alpha$ & `decay\_rate` & Technology learning rate & 0.05 / 5yrs & - \\
+$S_t$ & `S\_bc` & Stratospheric Black Carbon Stock & Dynamic & tons \\
+$\tau$ & `tau\_bc\_years` & Soot residence time & 4.0 & years \\
+$E_{LCA}$ & `E\_LCA\_build\_ton` & Emissions from Elevator Construction & ~Eq 4.4 & tons CO2 \\
+$I_t$ & `inventory` & Water inventory at lunar base & Dynamic & tons \\
+$N_{safe}$ & `N\_safe\_year` & Safe rocket launch limit (Ozone) & 1000 & launches/yr \\
+\bottomrule
+\end{longtable}
+\end{center}
+\par
+---
+\par
+\subsection*{2. Modeling Logic Summary}
+\par
+\subsubsection*{Q1: Infrastructure Selection}
+**Problem**: Trade-off between Rockets and Space Elevator.
+**Model**:
+*   **Rockets**: Low fixed cost, high marginal cost. Subject to learning curve $C(t) = C\_0 (1-\alpha)^{\lfloor t/5 \rfloor}$.
+*   **Elevator**: Huge fixed cost ($E\_{LCA}$), near-zero marginal cost.
+**Implementation**: `src/q1/cost\_model.py`.
+**Key Finding**: Space Elevator dominates in the long run for massive cargo ($10^8$ tons) despite high initial CapEx.
+\par
+\subsubsection*{Q2: System Reliability & Resilience}
+**Problem**: System stability under stochastic failures.
+**Model**: **Discrete Event Simulation (DES)**
+*   **Rocket Failure**: Binomial process $B(n, p)$.
+*   **Elevator Failure**: Poisson process with MTTR (Mean Time To Repair).
+**Implementation**: `src/q2/simulator.py`.
+**Key Finding**: Redundancy is critical. A dynamic backup policy reduces downtime risk to <5\%.
+\par
+\subsubsection*{Q3: Water Resource Management}
+**Problem**: Zero-tolerance for water supply failure.
+**Model**: **Dual-Sourcing Strategy**
+*   **Base Load**: Elevator (Cheap, High Volume).
+*   **Surge**: Rockets (Fast, Expensive).
+*   **Policy**: $(s, S)$ Inventory Control. Trigger rockets when $I\_t < s$.
+**Implementation**: `src/q3/simulation.py`.
+\par
+\subsubsection*{Q4: Environmental Impact Assessment}
+**Problem**: Cumulative impact of high-frequency launches.
+**Model**: **The Leaky Bucket Model**
+\[ S_{t+1} = (1 - \delta) S_t + u_t \]
+*   $S\_t$: Stratospheric Black Carbon Stock.
+*   $u\_t$: Daily emissions.
+*   $\delta$: Natural decay rate ($\delta \approx 1/(\tau \times 365)$).
+**Metric (EDI)**: Weighted sum of Carbon, Soot, and Ozone risks.
+**Implementation**: `src/q4/env\_ledger.py`.
+\par
+---
+\par
+\subsection*{3. Visual Gallery}
+\par
+\subsubsection*{3.1 Cost-Time Pareto Front}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{outputs/q1/figs/pareto_cost_time.png}
+\caption{Figure 1: Cost vs. Time Trade-off}
+\end{figure}
+> **Interpretation**: The Pareto front shows non-dominated solutions. The Elevator strategy minimizes total time and long-term cost.
+\par
+\subsubsection*{3.2 Reliability Curve}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{outputs/q3/step3/fig3_reliability_curve.png}
+\caption{Figure 2: Reliability vs. Buffer Size}
+\end{figure}
+> **Interpretation**: Stockout probability decreases exponentially with safety stock size. We recommend a 30-day buffer.
+\par
+\subsubsection*{3.3 Environmental Accumulation}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{outputs/q4_detailed/plots/fig_q4_soot_timeseries.png}
+\caption{Figure 3: Stratospheric Soot Time-series}
+\end{figure}
+> **Interpretation**: Due to the long residence time ($\tau=4$ years), soot accumulates in the stratosphere ("Leaky Bucket" effect), posing a significant long-term climate risk for the Rocket-heavy scenario.
+\par
+\end{document}

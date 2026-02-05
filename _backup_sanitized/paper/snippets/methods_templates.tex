@@ -1,0 +1,17 @@
+% methods_templates.tex
+\subsection{Heuristic Optimization Framework}
+In this study, we employ a hybrid heuristic framework combining Particle Swarm Optimization (PSO), Genetic Algorithm (GA), and Simulated Annealing (SA) to navigate the complex landscape of the proposed optimization problem.
+
+\subsubsection{Algorithm Selection}
+\begin{itemize}
+    \item \textbf{Particle Swarm Optimization (PSO):} Utilized for global exploration in the continuous relaxation of the solution space. PSO effectively identifies promising regions by mimicking social behavior.
+    \item \textbf{Genetic Algorithm (GA):} Employed for structural learning and discrete optimization. Through crossover and mutation operators, GA refines binary/integer decisions.
+    \item \textbf{Simulated Annealing (SA):} Applied as a local search mechanism to escape local optima by accepting non-improving moves with a probability decreasing over temperature $T$.
+\end{itemize}
+
+\subsubsection{Exploration vs. Exploitation}
+The proposed pipeline balances exploration (PSO) and exploitation (SA). The early phase focuses on diversity maintenance to avoid premature convergence, while the late phase intensifies search around the incumbent solution.
+
+\subsection{Complexity Analysis}
+% Placeholder: Update with O-notation based on specific operators used
+The temporal complexity of one iteration is dominated by the evaluation function $f(x)$, which is $O(|E|)$ for network flow calculation. The overall complexity is approximately $O(N_{gen} \cdot N_{pop} \cdot |E|)$.

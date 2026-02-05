@@ -1,0 +1,35 @@
+simulation:
+  n_sims: 1000
+  seed: 42
+  horizon_days: 365
+  n_spaghetti: 50
+
+demand:
+  population: 100000
+  w_L_per_person_day: 175.0
+  eta_recycle: 0.98
+  L_safe_days_baseline: 15
+  B_buffer_days: 15
+
+capacity:
+  C_E_year_ton: 537000.0
+  phi_E: 1.0
+  K_sites: 5
+  r_launches_per_site_per_day: 2
+  q_ton_per_launch: 100.0
+  phi_R: 1.0
+  
+  # Costs (USD)
+  C_L_per_launch: 50000000.0
+  c_E_per_kg: 50.0
+  q_A_ton: 100.0
+  C_A_per_transfer: 5000000.0
+
+risk:
+  # Elevator Target availability: 0.75
+  p_E_fail_daily: 0.022
+  repair_days_min: 5
+  repair_days_max: 25
+  
+  # Rocket
+  p_R_fail_per_launch: 0.10

@@ -1,0 +1,28 @@
+\subsection{数据清洗与构图（run\_etl / build\_graph）}
+本阶段将原始节点/边与公交站点数据进行清洗，形成可用于建模的规范化输入，并据此构建加权网络 $G=(V,E)$，边权记为 $w_e$。由于日志中未记录 $n\_nodes$/$n\_edges$ 等规模指标，需在后续补充相应统计。
+
+\subsection{基线诊断（run\_baseline）}
+基线诊断用于刻画网络连通性、可达性与关键节点的结构性特征，为后续优化与鲁棒性分析提供参照。当前日志未给出具体指标数值，需结合基线产物文件进行补充说明与表格提取。
+
+\subsection{任务求解（run\_task2）}
+任务求解以加权网络 $G=(V,E)$ 为基础，以决策变量 $x$ 表示资源配置/选址/流量等决策，目标函数采用抽象形式 $\min f(x)$ 并满足相应约束（容量、连通性或预算等）。由于日志未记录 objective 等数值指标，需补充任务输出文件与最终目标值。
+
+\subsection{鲁棒性（sensitivity / attack\_nodes）}
+鲁棒性包含两类叙事：参数扰动（\pm 10\%）与结构攻击（移除 top-k 节点）。当前日志仅记录缺失提示，缺少对应输出产物，需补充以下文件：outputs/task2/sensitivity/sensitivity\_table.csv 与 outputs/task2/attack/attack\_results.csv。补齐后可据此生成扰动曲线与攻击退化图。
+
+\paragraph{关键产物清单（来自日志 artifacts）}
+\begin{itemize}
+  \item bus\_stops\_clean.csv
+  \item cleaning\_log.md
+  \item edges\_clean.csv
+  \item nodes\_clean.csv
+  \item base\_map.csv
+  \item boundary.geojson
+  \item graph.pkl
+  \item graph\_edges.csv
+  \item graph\_nodes.csv
+  \item graph\_edges\_kepler.csv
+  \item baseline\_metrics.csv
+  \item baseline\_report.md
+  \item bottlenecks\_top10\_nodes.csv
+\end{itemize}

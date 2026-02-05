@@ -1,0 +1,101 @@
+{
+  "mcpServers": {
+    "drawio": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "drawio-mcp-server",
+        "--extension-port",
+        "8080"
+      ],
+      "description": "Draw.io diagram generation"
+    },
+    "firecrawl": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "firecrawl-mcp"
+      ],
+      "env": {
+        "FIRECRAWL_API_KEY": "YOUR_FIRECRAWL_API_KEY_HERE"
+      },
+      "description": "Web scraping and crawling"
+    },
+    "memory": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ],
+      "description": "Persistent memory across sessions"
+    },
+    "sequential-thinking": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ],
+      "description": "Chain-of-thought reasoning"
+    },
+    "vercel": {
+      "type": "http",
+      "url": "https://mcp.vercel.com",
+      "description": "Vercel deployments and projects"
+    },
+    "railway": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@railway/mcp-server"
+      ],
+      "description": "Railway deployments"
+    },
+    "cloudflare-docs": {
+      "type": "http",
+      "url": "https://docs.mcp.cloudflare.com/mcp",
+      "description": "Cloudflare documentation search"
+    },
+    "chrome-devtools": {
+      "command": "node",
+      "args": [
+        "/path/to/chrome-devtools-mcp/build/src/index.js",
+        "--browser-url=http://127.0.0.1:9222"
+      ],
+      "description": "Chrome DevTools MCP - UPDATE PATH"
+    },
+    "context7": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@context7/mcp-server"
+      ],
+      "description": "Live documentation lookup"
+    },
+    "figma": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-figma"
+      ],
+      "env": {
+        "FIGMA_ACCESS_TOKEN": "YOUR_FIGMA_ACCESS_TOKEN_HERE"
+      },
+      "description": "Figma design access"
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/path/to/your/project"
+      ],
+      "description": "Filesystem operations - UPDATE PATH"
+    }
+  },
+  "_comments": {
+    "usage": "Copy the servers you need to your ~/.claude.json mcpServers section",
+    "env_vars": "Replace YOUR_*_HERE placeholders with actual values",
+    "disabling": "Use disabledMcpServers array in project config to disable per-project",
+    "context_warning": "Keep under 10 MCPs enabled to preserve context window"
+  }
+}

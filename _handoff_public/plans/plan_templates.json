@@ -1,0 +1,74 @@
+{
+    "baseline_run": {
+        "description": "Quick Baseline Check",
+        "steps": [
+            {
+                "tool": "build_graph",
+                "params": {
+                    "export": "graph.pkl"
+                }
+            },
+            {
+                "tool": "run_baseline",
+                "params": {
+                    "n_samples": 100
+                }
+            }
+        ]
+    },
+    "hybrid_run": {
+        "description": "Full Hybrid Pipeline (Task 2)",
+        "steps": [
+            {
+                "tool": "build_graph",
+                "params": {}
+            },
+            {
+                "tool": "run_task2",
+                "params": {
+                    "mode": "hybrid_pipeline",
+                    "pso_particles": 30,
+                    "ga_pop": 50,
+                    "ga_gen": 30
+                }
+            }
+        ]
+    },
+    "robustness_run": {
+        "description": "Post-Optimization Robustness Analysis",
+        "steps": [
+            {
+                "tool": "run_robustness",
+                "params": {
+                    "solution_path": "outputs/task2/best_solution.json",
+                    "smoke": false
+                }
+            }
+        ]
+    },
+    "ablation_run": {
+        "description": "Task2 Ablation Grid (PSO/GA/Hybrid)",
+        "steps": [
+            {
+                "tool": "run_task2_ablation",
+                "params": {
+                    "mode": "all",
+                    "dry_run": true,
+                    "sample_runs": 5
+                }
+            }
+        ]
+    },
+    "ablation_analysis_run": {
+        "description": "Analyze Ablation Results",
+        "steps": [
+            {
+                "tool": "analyze_task2_ablation",
+                "params": {
+                    "feasible_only": true,
+                    "topk": 5
+                }
+            }
+        ]
+    }
+}

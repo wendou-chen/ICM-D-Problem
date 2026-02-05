@@ -1,0 +1,44 @@
+\documentclass{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{textcomp}
+\usepackage{placeins}
+
+% Allow \pm in text mode (sections may include \pm outside math)
+\let\oldpm\pm
+\renewcommand{\pm}{\ifmmode\oldpm\else\textpm\fi}
+
+\title{Title Placeholder}
+\author{Author Placeholder}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+We address a transportation network optimization problem with emphasis on data-driven modeling and robust decision-making. The workflow integrates data cleaning, network construction, baseline diagnostics, and optimization. Our contribution is a transparent pipeline that links artifacts to reproducible sections and supports audit-ready reporting. We also include robustness checks to assess sensitivity and structural vulnerability.
+
+\section{Data and Network Construction}
+\input{sections/methods}\FloatBarrier
+
+\section{Baseline and Optimization Results}
+\input{sections/results}\FloatBarrier
+
+\section{Robustness Analysis}
+\input{sections/robustness}\FloatBarrier
+
+\section{Limitations}
+\input{sections/limitations}\FloatBarrier
+
+\section{Conclusion}
+We present a unified process from data preparation to optimization, paired with baseline diagnostics and robustness analysis. The approach produces traceable artifacts and a consistent narrative for the main findings. Sensitivity and attack analyses provide complementary perspectives on stability and structural risk. Future improvements can refine assumptions, expand robustness coverage, and validate additional scenarios.
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}

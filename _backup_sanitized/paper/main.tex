@@ -1,0 +1,44 @@
+\documentclass{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{textcomp}
+
+% Allow \pm in text mode (sections may include \pm outside math)
+\let\oldpm\pm
+\renewcommand{\pm}{\ifmmode\oldpm\else\textpm\fi}
+
+\title{Title Placeholder}
+\author{Author Placeholder}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+This is a placeholder introduction.
+
+\section{Data and Network Construction}
+\input{sections/methods}
+
+\section{Baseline and Optimization Results}
+\input{sections/results}
+
+\section{Robustness Analysis}
+\input{sections/robustness}
+
+\section{Limitations}
+\input{sections/limitations}
+
+\appendix
+\section{Report on Use of AI Tools}
+\input{sections/ai_tools_report}
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}
